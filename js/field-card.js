@@ -42,6 +42,7 @@
       '<div class="fc-block"><div class="fc-bk">E-bike rule</div><div class="fc-bv">' + (t.ebrule || '') + '</div></div>' +
       (t.status ? '<div class="fc-block"><div class="fc-bk">2025–26 status</div><div class="fc-bv">' + t.status + '</div></div>' : '') +
       '<div class="fc-block"><div class="fc-bk">Trailhead</div><div class="fc-bv mono">⌖ ' + coord + '</div></div>' +
+      (window.__atlasMapButtons ? (function () { var b = window.__atlasMapButtons(t); return b ? '<div class="fc-block no-print"><div class="fc-bk">Open in maps</div>' + b + '</div>' : ''; })() : '') +
       '<div class="fc-block"><div class="fc-bk">Full entry</div><div class="fc-bv mono">svetimfm.github.io/ebikemap</div></div>' +
       '</div></div>' +
       '<div class="fc-foot">Geometry © OpenStreetMap (ODbL) · elevation USGS 3DEP / OpenTopoData · ' + (t.geomSource && t.geomSource.indexOf('OpenStreetMap') === 0 ? 'OSM centerline' : 'approximate route') + ' · printed from the Atlas, works offline.</div>' +

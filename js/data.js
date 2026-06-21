@@ -8,7 +8,7 @@ window.ATLAS_READY = (async function () {
     return r.json();
   });
   const softJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null)).catch(() => null); // optional layers
-  const [trails, stations, ocean, lakes, parks, roads, transit, connections] = await Promise.all([
+  const [trails, stations, ocean, lakes, parks, roads, transit, connections, contours] = await Promise.all([
     json('data/trails.json'),
     json('data/stations.json'),
     json('data/basemap/ocean.geojson'),
@@ -17,12 +17,13 @@ window.ATLAS_READY = (async function () {
     json('data/basemap/roads.geojson'),
     softJson('data/transit.json'),
     softJson('data/connections.json'),
+    softJson('data/basemap/contours.geojson'), // real-DEM topo contour lines (optional)
   ]);
   window.ATLAS = {
     HOME: null,
     STATIONS: stations.map((s) => [s.name, s.lat, s.lng, s.note]),
     TRAILS: trails,
-    BASEMAP: { ocean, lakes, parks, roads },
+    BASEMAP: { ocean, lakes, parks, roads, contours },
     TRANSIT: transit,
     CONNECTIONS: connections,
   };

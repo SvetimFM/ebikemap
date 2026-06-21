@@ -45,6 +45,21 @@ window.ATLAS_READY.then(function (A) {
     ],
   };
 
+  // Real-DEM topographic contour lines (optional layer). Inserted UNDER 'roads' so
+  // trails / transit / roads always read on top. Zoom-gated + opacity-faded so the
+  // metro overview stays clean and the terrain mesh reveals as you zoom in.
+  if (A.BASEMAP.contours) {
+    style.sources.contours = { type: 'geojson', data: A.BASEMAP.contours, attribution: 'Contours: Mapzen/Terrarium DEM (public domain)' };
+    var contourLayers = [
+      { id: 'contour', type: 'line', source: 'contours', filter: ['==', ['get', 'idx'], 0], minzoom: 11.5, layout: { 'line-join': 'round' },
+        paint: { 'line-color': '#8a7a58', 'line-opacity': ['interpolate', ['linear'], ['zoom'], 11.5, 0, 12.3, 0.32, 16, 0.36], 'line-width': ['interpolate', ['linear'], ['zoom'], 11.5, 0.4, 16, 0.9] } },
+      { id: 'contour-index', type: 'line', source: 'contours', filter: ['==', ['get', 'idx'], 1], minzoom: 10.5, layout: { 'line-join': 'round' },
+        paint: { 'line-color': '#d8c79e', 'line-opacity': ['interpolate', ['linear'], ['zoom'], 10.5, 0, 11.2, 0.46, 16, 0.52], 'line-width': ['interpolate', ['linear'], ['zoom'], 10.5, 0.7, 16, 1.7] } },
+    ];
+    var roadsIdx = style.layers.findIndex(function (l) { return l.id === 'roads'; });
+    style.layers.splice(roadsIdx, 0, contourLayers[0], contourLayers[1]);
+  }
+
   var map = new maplibregl.Map({ container: 'map', style: style, center: [-122.235, 47.62], zoom: 9.25, minZoom: 8, maxZoom: 16, attributionControl: false, dragRotate: false, pitchWithRotate: false });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
   map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'MapLibre · © OpenStreetMap · Natural Earth' }), 'bottom-right');
@@ -90,6 +105,37 @@ window.ATLAS_READY.then(function (A) {
   var EBHEAD = { ok: 'E-bikes allowed', restricted: 'E-bikes limited', banned: 'E-bikes prohibited' };
   var BIKEICO = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zM12 17.5L9 9l3-1 2 3h3"/></svg>';
   var EXTICO = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3M14 4h6v6M10 14L20 4"/></svg>';
+  var PINICO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+  /* ---------- "Open in maps" deep links — universal https forms (work on iOS app,
+     Android app, and desktop web). PII-safe: the home-coord guard references the
+     (null in production) window.ATLAS.HOME rather than embedding any literal home
+     coordinate, so no private location ever appears in shipped code; it self-arms
+     only if a private home is ever configured. Inputs are public trail fields. */
+  function _distM(a, b, c, d) { var R = 6371000, k = Math.PI / 180, x = (d - b) * k * Math.cos(((a + c) / 2) * k), y = (c - a) * k; return R * Math.sqrt(x * x + y * y); }
+  function _isPrivate(lat, lng) { var H = window.ATLAS && window.ATLAS.HOME; return H ? _distM(lat, lng, H[0], H[1]) <= 80 : false; }
+  function _parseCoord(s) { if (typeof s !== 'string') return null; var bare = s.replace(/\(.*?\)\s*$/, '').trim(); var m = bare.match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/); if (!m) return null; var la = parseFloat(m[1]), lo = parseFloat(m[2]); if (isNaN(la) || isNaN(lo) || la < -90 || la > 90 || lo < -180 || lo > 180) return null; return [la, lo]; }
+  function trailLatLng(tr) {
+    if (!tr) return null;
+    var p = _parseCoord(tr.coord); // the named trailhead in coord is the best target for a line trail
+    if (!p && tr.pt && tr.pt.length >= 2) p = [+tr.pt[0], +tr.pt[1]];
+    if (!p && tr.path && tr.path[0] && tr.path[0].length >= 2) p = [+tr.path[0][0], +tr.path[0][1]];
+    if (!p || isNaN(p[0]) || isNaN(p[1])) return null;
+    var lat = Math.round(p[0] * 1e5) / 1e5, lng = Math.round(p[1] * 1e5) / 1e5;
+    if (lat < 46.5 || lat > 48.5 || lng < -123.5 || lng > -120.5) return null; // sanity: Puget Sound region
+    if (_isPrivate(lat, lng)) return null;
+    return [lat, lng];
+  }
+  function buildMapButtons(tr) {
+    var p = trailLatLng(tr); if (!p) return '';
+    var lat = p[0], lng = p[1], q = encodeURIComponent(tr.name || 'Trailhead'), cq = encodeURIComponent(lat + ',' + lng);
+    var apple = 'https://maps.apple.com/?q=' + q + '&ll=' + lat + ',' + lng;
+    var goog = 'https://www.google.com/maps/search/?api=1&query=' + cq;
+    var bike = 'https://www.google.com/maps/dir/?api=1&destination=' + cq + '&travelmode=bicycling';
+    function a(href, ico, lbl, cls) { return '<a class="map-btn ' + cls + '" href="' + href + '" target="_blank" rel="noopener noreferrer">' + ico + '<span>' + lbl + '</span></a>'; }
+    return '<div class="map-btns">' + a(apple, PINICO, 'Apple Maps', 'apl') + a(goog, PINICO, 'Google Maps', 'ggl') + a(bike, BIKEICO, 'Bike directions', 'bike') + '</div>';
+  }
+
   function renderDetail(tr) {
     var ph = tr.photos && tr.photos[0] ? tr.photos[0] : null;
     if (ph) {
@@ -114,9 +160,15 @@ window.ATLAS_READY.then(function (A) {
     }
     if (tr.status) h += '<div class="callout info"><b>2025–26 status:</b> ' + tr.status + '</div>';
     h += '<div class="coordbox">⌖ <b>' + tr.coord + '</b></div>';
-    h += '<div class="sec-label">Maps &amp; sources</div><div class="links">';
-    tr.links.forEach(function (l) { h += '<a class="link" href="' + l[1] + '" target="_blank" rel="noopener">' + EXTICO + l[0] + '</a>'; });
-    h += '</div>';
+    var mapBtns = buildMapButtons(tr);
+    if (mapBtns) h += '<div class="sec-label">Open in maps</div>' + mapBtns;
+    // drop the data file's generic "Google Maps" link when we render the dedicated buttons (no dupes)
+    var srcLinks = mapBtns ? tr.links.filter(function (l) { return !/^google\s*maps$/i.test(l[0]); }) : tr.links;
+    if (srcLinks.length) {
+      h += '<div class="sec-label">More &amp; sources</div><div class="links">';
+      srcLinks.forEach(function (l) { h += '<a class="link" href="' + l[1] + '" target="_blank" rel="noopener">' + EXTICO + l[0] + '</a>'; });
+      h += '</div>';
+    }
     D.body.innerHTML = h; D.body.scrollTop = 0; D.panel.classList.add('open');
     if (tr.elevation && window.AtlasElevation) window.AtlasElevation.attachScrubber(D.body, tr.elevation);
     D.body.querySelectorAll('a[data-goto]').forEach(function (a) { a.addEventListener('click', function (ev) { ev.preventDefault(); select(a.dataset.goto); }); });
@@ -213,6 +265,14 @@ window.ATLAS_READY.then(function (A) {
   document.getElementById('railBtn').addEventListener('click', function () { railOn = !railOn; this.classList.toggle('on', railOn); ['transit', 'transit-casing'].forEach(function (lyr) { if (map.getLayer(lyr)) map.setLayoutProperty(lyr, 'visibility', railOn ? 'visible' : 'none'); }); });
   var hillOn = true;
   document.getElementById('hillBtn').addEventListener('click', function () { hillOn = !hillOn; this.classList.toggle('on', hillOn); if (map.getLayer('hillshade')) map.setLayoutProperty('hillshade', 'visibility', hillOn ? 'visible' : 'none'); });
+  var contourBtn = document.getElementById('contourBtn');
+  if (contourBtn) {
+    if (!A.BASEMAP.contours) { contourBtn.style.display = 'none'; }
+    else {
+      var contourOn = true;
+      contourBtn.addEventListener('click', function () { contourOn = !contourOn; this.classList.toggle('on', contourOn); ['contour', 'contour-index'].forEach(function (lyr) { if (map.getLayer(lyr)) map.setLayoutProperty(lyr, 'visibility', contourOn ? 'visible' : 'none'); }); });
+    }
+  }
 
   document.getElementById('sheetHandle').addEventListener('click', function () { document.getElementById('sidebar').classList.toggle('expanded'); });
 
@@ -220,6 +280,7 @@ window.ATLAS_READY.then(function (A) {
   window.addEventListener('load', function () { setTimeout(fixSize, 150); }); setTimeout(fixSize, 400); setTimeout(fixSize, 1000);
   if (window.ResizeObserver) new ResizeObserver(fixSize).observe(document.getElementById('mapwrap'));
   window.__atlasFlat = { map: map, fixSize: fixSize };
+  window.__atlasMapButtons = buildMapButtons; // reused by the field card (shared PII guard)
 
   renderList();
 }).catch(function (e) {
