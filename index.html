@@ -73,15 +73,15 @@
     </div>
   </header>
   <div class="body">
-    <aside id="sidebar">
+    <aside id="sidebar" aria-label="Trail list">
       <div class="sheet-handle" id="sheetHandle"><div class="bar"></div><div class="lbl2" id="sheetLbl">▲ Trail list</div></div>
       <div class="side-head">
         <span class="count" id="resultCount"></span>
       </div>
-      <div class="list" id="list"></div>
+      <div class="list" id="list" role="list"></div>
     </aside>
     <div id="mapwrap">
-      <div id="map"></div>
+      <div id="map" role="application" aria-label="Interactive map of Seattle metro bike trails"></div>
       <iframe id="view3d" title="Seattle Metro Relief — 3D trail atlas" loading="lazy"></iframe>
       <div id="viewnet"><div id="netmap"></div>
         <div class="net-legend">
@@ -139,5 +139,8 @@
 <script src="js/map-flat.js"></script>
 <script src="js/view-network.js"></script>
 <script src="js/view-switch.js"></script>
+<script src="js/about.js"></script>
+<script src="js/field-card.js"></script>
+<script src="sw-register.js"></script>
 </body>
 </html>

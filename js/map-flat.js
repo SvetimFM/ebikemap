@@ -134,6 +134,7 @@ window.ATLAS_READY.then(function (A) {
     D.name.textContent = tr.name; D.loc.textContent = tr.area + ' · ' + tr.manager;
     var h = '';
     h += '<div class="ebike-banner ' + tr.eb + '"><div class="ico">' + BIKEICO + '</div><div><div class="et">' + EBHEAD[tr.eb] + '</div><div class="ev">' + tr.ebrule + '</div></div></div>';
+    h += '<div class="d-actions"><button class="d-action" type="button" data-fieldcard="' + tr.id + '">⎙ Field card</button>' + (tr.geom === 'line' ? '<button class="d-action ghost" type="button" data-fly="' + tr.id + '">▶ Take this trail (3D)</button>' : '') + '</div>';
     h += '<div class="sec-label">At a glance</div><div class="stats"><div class="stat"><div class="v">' + tr.len + '</div><div class="k">Size / length</div></div><div class="stat"><div class="v" style="font-size:12.5px">' + tr.surface + '</div><div class="k">Surface</div></div><div class="stat"><div class="v" style="font-size:12.5px">' + tr.diff + '</div><div class="k">Character</div></div></div>';
     if (tr.elevation && window.AtlasElevation) h += window.AtlasElevation.profileHTML(tr.elevation);
     h += '<div class="sec-label">' + (tr.type === 'park' ? 'The spot' : 'The ride') + '</div><div class="prose">' + tr.blurb + '</div>';
@@ -154,6 +155,8 @@ window.ATLAS_READY.then(function (A) {
     D.body.innerHTML = h; D.body.scrollTop = 0; D.panel.classList.add('open');
     if (tr.elevation && window.AtlasElevation) window.AtlasElevation.attachScrubber(D.body, tr.elevation);
     D.body.querySelectorAll('a[data-goto]').forEach(function (a) { a.addEventListener('click', function (ev) { ev.preventDefault(); select(a.dataset.goto); }); });
+    var fc = D.body.querySelector('[data-fieldcard]'); if (fc) fc.addEventListener('click', function () { if (window.__atlasFieldCard) window.__atlasFieldCard(fc.dataset.fieldcard); });
+    var fl = D.body.querySelector('[data-fly]'); if (fl) fl.addEventListener('click', function () { if (window.__atlasView) window.__atlasView('3d'); });
   }
   document.getElementById('dClose').addEventListener('click', function () { D.panel.classList.remove('open'); clearHighlight(); document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('active'); }); activeId = null; });
 
@@ -172,6 +175,8 @@ window.ATLAS_READY.then(function (A) {
       var gh = document.createElement('div'); gh.className = 'grouphead ' + g[2]; gh.textContent = g[1] + ' · ' + items.length; list.appendChild(gh);
       items.forEach(function (tr) {
         var c = document.createElement('div'); c.className = 'card eb-' + tr.eb + (tr.id === activeId ? ' active' : ''); c.dataset.id = tr.id;
+        c.tabIndex = 0; c.setAttribute('role', 'button'); c.setAttribute('aria-label', tr.name + ' — ' + EBLBL[tr.eb] + (tr.elevation ? ', ' + tr.elevation.distanceMi + ' miles' : ''));
+        c.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(tr.id); } });
         var flag = tr.home ? '<span class="hidden-flag" style="color:var(--rail)">⌂ home</span>' : (tr.hidden ? '<span class="hidden-flag">★ hidden</span>' : '');
         var su = tr.geom === 'line' ? (tr.type === 'gravel' ? 'gravel' : 'paved') : (tr.type === 'park' ? 'park' : 'dirt');
         var ph = tr.photos && tr.photos[0] ? tr.photos[0] : null;
