@@ -17349,7 +17349,16 @@
     "https://maps.google.com/?q=47.5407,-122.2164"
    ]
   ],
-  "connections": []
+  "connections": [],
+  "photos": [
+   {
+    "url": "data/photos/pioneer.jpg",
+    "credit": "nordique · Openverse (Flickr)",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "sourceUrl": "https://www.flickr.com/photos/28435100@N00/2394696478"
+   }
+  ]
  },
  {
   "id": "gasworks",
