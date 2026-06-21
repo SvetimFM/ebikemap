@@ -116,6 +116,7 @@ window.ATLAS_READY.then(function (A) {
     var h = '';
     h += '<div class="ebike-banner ' + tr.eb + '"><div class="ico">' + BIKEICO + '</div><div><div class="et">' + EBHEAD[tr.eb] + '</div><div class="ev">' + tr.ebrule + '</div></div></div>';
     h += '<div class="sec-label">At a glance</div><div class="stats"><div class="stat"><div class="v">' + tr.len + '</div><div class="k">Size / length</div></div><div class="stat"><div class="v" style="font-size:12.5px">' + tr.surface + '</div><div class="k">Surface</div></div><div class="stat"><div class="v" style="font-size:12.5px">' + tr.diff + '</div><div class="k">Character</div></div></div>';
+    if (tr.elevation && window.AtlasElevation) h += window.AtlasElevation.profileHTML(tr.elevation);
     h += '<div class="sec-label">' + (tr.type === 'park' ? 'The spot' : 'The ride') + '</div><div class="prose">' + tr.blurb + '</div>';
     h += '<div class="sec-label">Connections</div><div class="kv"><div class="k">Links to</div><div class="v">' + tr.conn + '</div></div>';
     if (tr.status) h += '<div class="callout info"><b>2025–26 status:</b> ' + tr.status + '</div>';
@@ -124,6 +125,7 @@ window.ATLAS_READY.then(function (A) {
     tr.links.forEach(function (l) { h += '<a class="link" href="' + l[1] + '" target="_blank" rel="noopener">' + EXTICO + l[0] + '</a>'; });
     h += '</div>';
     D.body.innerHTML = h; D.body.scrollTop = 0; D.panel.classList.add('open');
+    if (tr.elevation && window.AtlasElevation) window.AtlasElevation.attachScrubber(D.body, tr.elevation);
   }
   document.getElementById('dClose').addEventListener('click', function () { D.panel.classList.remove('open'); clearHighlight(); document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('active'); }); activeId = null; });
 

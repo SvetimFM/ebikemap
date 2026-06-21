@@ -148,6 +148,22 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .link svg{opacity:.7;}
 .coordbox{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cream-dim);background:var(--panel);border:1px solid var(--line-soft);border-radius:8px;padding:8px 11px;margin-top:10px;display:flex;align-items:center;gap:8px;}
 .coordbox b{color:var(--cream);}
+
+/* elevation profile — shared component (§8.1), real DEM data */
+.elev{margin-top:2px;}
+.elev-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media (min-width:420px){.elev-tiles{grid-template-columns:repeat(4,1fr);}}
+.elev-tile{background:var(--panel);border:1px solid var(--line-soft);border-radius:10px;padding:9px 8px;text-align:center;}
+.elev-tile .ev{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:14px;color:var(--cream);line-height:1.1;}
+.elev-tile .ev .su{font-size:8.5px;color:var(--muted);letter-spacing:.4px;}
+.elev-tile .ek{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+.elev-tile .grade-easy{color:var(--ok);}.elev-tile .grade-moderate{color:var(--restricted);}
+.elev-tile .grade-steep{color:var(--restricted);}.elev-tile .grade-verysteep{color:var(--banned);}
+.elev-plot{position:relative;margin-top:10px;background:linear-gradient(180deg,rgba(20,36,26,.5),rgba(15,28,20,.2));border:1px solid var(--line-soft);border-radius:10px;overflow:hidden;}
+.elev-svg{display:block;width:100%;height:118px;}
+.elev-read{position:absolute;top:7px;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cream-dim);background:rgba(11,21,15,.82);border:1px solid var(--line-soft);border-radius:6px;padding:3px 7px;pointer-events:none;white-space:nowrap;transition:opacity .12s;}
+.elev-read b{color:var(--gold-2);}
+.elev-src{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.3px;color:var(--muted);margin-top:7px;}
 .sheet-handle{display:none;}
 
 /* 3D relief — lazy iframe, fills the map area, optional cinematic mode */

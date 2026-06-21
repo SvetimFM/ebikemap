@@ -43,7 +43,7 @@
     </div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#5f6d60;margin-top:11px;line-height:1.6;display:flex;align-items:center;gap:6px;">
       <span style="width:6px;height:6px;border-radius:50%;background:#e9a93c;display:inline-block;flex:none;animation:r3-fade 2s ease-in-out infinite alternate;"></span>
-      Relief synthesized for preview · real DEM in Phase&nbsp;3
+      Terrain synthesized · trail profiles from real DEM (USGS&nbsp;3DEP)
     </div>
   </div>
 
@@ -277,8 +277,9 @@ class Component extends DCLogic {
 
     // build picker list + profiles
     const trails = window.ATLAS.TRAILS.filter(t=>t.geom==='line').map(t=>{
-      const pr=this._profile(t.path);
-      return { id:t.id, name:t.name, eb:t.eb, distMi:pr.distMi, gainFt:pr.gainFt, _pr:pr };
+      // Prefer the real cached DEM profile; fall back to the synthesized field.
+      const pr = t.elevation ? this._profileFromBaked(t.elevation) : this._profile(t.path);
+      return { id:t.id, name:t.name, eb:t.eb, distMi:pr.distMi, gainFt:pr.gainFt, real:!!t.elevation, _pr:pr };
     });
     this._trailMeta=trails;
     this.setState({loading:false, trails:this._decorate(trails)});
@@ -362,6 +363,20 @@ class Component extends DCLogic {
 
   /* ---------- elevation profile ---------- */
   _hav(a,b){ const R=20925524.9; const r=Math.PI/180; const dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r,la1=a[0]*r,la2=b[0]*r; const x=Math.sin(dLa/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLo/2)**2; return R*2*Math.asin(Math.sqrt(x)); } // feet
+  // Real DEM profile baked into trails.json (meters) → the same shape _profile returns.
+  _profileFromBaked(el){
+    const FT=3.28084; const s=el.samples;
+    const samp=s.map(p=>({d:p.d*FT, elev:p.ele*FT}));
+    const totalFt=samp.length?samp[samp.length-1].d:0;
+    const hi=el.highFt, lo=el.lowFt;
+    const W=1000,Hh=132,pad=10; const eMin=Math.min(lo,hi)-6,eMax=Math.max(hi,eMin+40);
+    const X=d=>(d/(totalFt||1))*W; const Y=e=>Hh-pad-((e-eMin)/(eMax-eMin))*(Hh-pad*2);
+    let line=''; samp.forEach((p,i)=>{ line+=(i?'L':'M')+X(p.d).toFixed(1)+' '+Y(p.elev).toFixed(1)+' '; });
+    const area='M0 '+Hh+' '+samp.map(p=>'L'+X(p.d).toFixed(1)+' '+Y(p.elev).toFixed(1)).join(' ')+' L'+W+' '+Hh+' Z';
+    return { samp, totalFt, distMi:el.distanceMi.toFixed?el.distanceMi.toFixed(1):(''+el.distanceMi),
+             gainFt:el.gainFt, maxGrade:(''+el.maxGradePct), hiFt:hi, loFt:Math.max(lo,0),
+             profLine:line.trim(), profArea:area, W };
+  }
   _profile(path){
     // cumulative dist
     const cum=[0]; for(let i=1;i<path.length;i++) cum.push(cum[i-1]+this._hav(path[i-1],path[i]));
