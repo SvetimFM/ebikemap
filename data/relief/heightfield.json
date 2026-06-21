@@ -1,0 +1,14 @@
+{
+ "bbox": [
+  -122.44266,
+  47.21502,
+  -121.94346,
+  47.87009
+ ],
+ "nx": 480,
+ "ny": 480,
+ "z": 12,
+ "encoding": "terrarium",
+ "source": "AWS Open Terrain Tiles (Mapzen/Terrarium, public domain)",
+ "syncedAt": "2026-06-21"
+}

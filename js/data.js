@@ -7,20 +7,24 @@ window.ATLAS_READY = (async function () {
     if (!r.ok) throw new Error(u + ' → HTTP ' + r.status);
     return r.json();
   });
-  const [trails, stations, ocean, lakes, parks, roads] = await Promise.all([
+  const softJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null)).catch(() => null); // optional layers
+  const [trails, stations, ocean, lakes, parks, roads, transit, connections] = await Promise.all([
     json('data/trails.json'),
     json('data/stations.json'),
     json('data/basemap/ocean.geojson'),
     json('data/basemap/lakes.geojson'),
     json('data/basemap/parks.geojson'),
     json('data/basemap/roads.geojson'),
+    softJson('data/transit.json'),
+    softJson('data/connections.json'),
   ]);
   window.ATLAS = {
     HOME: null,
     STATIONS: stations.map((s) => [s.name, s.lat, s.lng, s.note]),
     TRAILS: trails,
     BASEMAP: { ocean, lakes, parks, roads },
-    IMAGES: window.ATLAS_IMAGES || {},
+    TRANSIT: transit,
+    CONNECTIONS: connections,
   };
   return window.ATLAS;
 })();

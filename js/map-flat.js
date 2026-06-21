@@ -2,7 +2,7 @@
    Behaviour identical to the original monolith; data now comes from window.ATLAS
    (see js/data.js) instead of inline globals. */
 window.ATLAS_READY.then(function (A) {
-  var TRAILS = A.TRAILS, STATIONS = A.STATIONS, IMAGES = A.IMAGES;
+  var TRAILS = A.TRAILS, STATIONS = A.STATIONS;
 
   /* ===== map ===== */
   const map = L.map('map', { zoomControl: true, attributionControl: true, minZoom: 9, maxZoom: 17 }).setView([47.605, -122.235], 11);
@@ -19,6 +19,22 @@ window.ATLAS_READY.then(function (A) {
   document.getElementById('parkBtn').addEventListener('click', function () {
     parksOn = !parksOn; this.classList.toggle('on', parksOn);
     if (parksOn) { parksLayer.addTo(map); parksLayer.bringToBack(); } else map.removeLayer(parksLayer);
+  });
+
+  // Link light-rail lines (bike + rail synergy) — drawn under the trail network.
+  var railGroup = L.layerGroup();
+  if (A.TRANSIT && A.TRANSIT.lines) {
+    A.TRANSIT.lines.forEach(function (ln) {
+      L.polyline(ln.path, { color: '#0b150f', weight: 5, opacity: .5 }).addTo(railGroup);
+      L.polyline(ln.path, { color: '#b58ce0', weight: 2.2, opacity: .9, dashArray: '1,5', lineCap: 'round' }).addTo(railGroup)
+        .bindTooltip('🚆 ' + ln.ref + ' (Link light rail)', { sticky: true });
+    });
+    railGroup.addTo(map);
+  }
+  var railOn = true;
+  document.getElementById('railBtn').addEventListener('click', function () {
+    railOn = !railOn; this.classList.toggle('on', railOn);
+    if (railOn) railGroup.addTo(map); else map.removeLayer(railGroup);
   });
 
   const LABELS = [
@@ -105,10 +121,13 @@ window.ATLAS_READY.then(function (A) {
   const BIKEICO = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zM12 17.5L9 9l3-1 2 3h3"/></svg>';
   const EXTICO = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3M14 4h6v6M10 14L20 4"/></svg>';
   function renderDetail(tr) {
-    var im = tr.img && IMAGES[tr.img] ? IMAGES[tr.img] : null;
-    if (im) {
-      D.hero.innerHTML = '<img src="' + im.img + '" alt="' + tr.name + '">';
-      if (im.src) { D.credit.href = im.src; D.credit.style.display = 'block'; } else D.credit.style.display = 'none';
+    var ph = tr.photos && tr.photos[0] ? tr.photos[0] : null;
+    if (ph) {
+      D.hero.innerHTML = '<img src="' + ph.url + '" alt="' + tr.name + '" loading="lazy">';
+      D.credit.href = ph.sourceUrl || (ph.licenseUrl || '#');
+      D.credit.innerHTML = '📷 ' + (ph.credit || 'source') + (ph.license ? ' · ' + ph.license : '');
+      D.credit.title = (ph.credit || '') + (ph.license ? ' · ' + ph.license : '');
+      D.credit.style.display = 'block';
     }
     else { D.hero.innerHTML = '<div class="ph">' + (tr.icon || '◆') + '</div>'; D.credit.style.display = 'none'; }
     D.kicker.innerHTML = '<span style="color:' + (tr.type === 'park' ? '#4fae6a' : EBC[tr.eb]) + '">◆ ' + TYPELBL[tr.type] + '</span>' + (tr.hidden ? '<span class="hidden-flag">★ hidden gem</span>' : '');
@@ -119,6 +138,14 @@ window.ATLAS_READY.then(function (A) {
     if (tr.elevation && window.AtlasElevation) h += window.AtlasElevation.profileHTML(tr.elevation);
     h += '<div class="sec-label">' + (tr.type === 'park' ? 'The spot' : 'The ride') + '</div><div class="prose">' + tr.blurb + '</div>';
     h += '<div class="sec-label">Connections</div><div class="kv"><div class="k">Links to</div><div class="v">' + tr.conn + '</div></div>';
+    if (tr.connections && tr.connections.length) {
+      h += '<div class="links">';
+      tr.connections.forEach(function (cn) {
+        var o = TRAILS.find(function (t) { return t.id === cn.to; }); if (!o) return;
+        h += '<a class="link" data-goto="' + cn.to + '" href="#" title="' + cn.label + '">↳ ' + o.name + '</a>';
+      });
+      h += '</div>';
+    }
     if (tr.status) h += '<div class="callout info"><b>2025–26 status:</b> ' + tr.status + '</div>';
     h += '<div class="coordbox">⌖ <b>' + tr.coord + '</b></div>';
     h += '<div class="sec-label">Maps &amp; sources</div><div class="links">';
@@ -126,6 +153,7 @@ window.ATLAS_READY.then(function (A) {
     h += '</div>';
     D.body.innerHTML = h; D.body.scrollTop = 0; D.panel.classList.add('open');
     if (tr.elevation && window.AtlasElevation) window.AtlasElevation.attachScrubber(D.body, tr.elevation);
+    D.body.querySelectorAll('a[data-goto]').forEach(function (a) { a.addEventListener('click', function (ev) { ev.preventDefault(); select(a.dataset.goto); }); });
   }
   document.getElementById('dClose').addEventListener('click', function () { D.panel.classList.remove('open'); clearHighlight(); document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('active'); }); activeId = null; });
 
@@ -146,9 +174,9 @@ window.ATLAS_READY.then(function (A) {
         var c = document.createElement('div'); c.className = 'card eb-' + tr.eb + (tr.id === activeId ? ' active' : ''); c.dataset.id = tr.id;
         var flag = tr.home ? '<span class="hidden-flag" style="color:var(--rail)">⌂ home</span>' : (tr.hidden ? '<span class="hidden-flag">★ hidden</span>' : '');
         var su = tr.geom === 'line' ? (tr.type === 'gravel' ? 'gravel' : 'paved') : (tr.type === 'park' ? 'park' : 'dirt');
-        var im = tr.img && IMAGES[tr.img] ? IMAGES[tr.img] : null;
+        var ph = tr.photos && tr.photos[0] ? tr.photos[0] : null;
         var html = '<div class="card-strip"></div>';
-        if (im) html += '<img class="card-thumb" src="' + im.img + '" alt="' + tr.name + '" loading="lazy">';
+        if (ph) html += '<img class="card-thumb" src="' + ph.url + '" alt="' + tr.name + '" loading="lazy">';
         html += '<div class="card-pad"><div class="card-top"><div><div class="card-name">' + tr.name + '</div><div class="card-loc">' + tr.area + '</div></div>' +
           '<div class="card-len"><b>' + tr.len + '</b><br><span class="su">' + su + '</span></div></div>' +
           '<div class="card-meta"><span class="ebadge ' + tr.eb + '"><span class="d"></span>' + EBLBL[tr.eb] + '</span>' + flag + '</div></div>';
@@ -158,6 +186,17 @@ window.ATLAS_READY.then(function (A) {
       });
     });
   }
+  // Color by: E-bike legality / Slope (grade) / Surface — one encoding of the network.
+  var colorMode = 'eb';
+  function slopeColor(g) { return g == null ? '#5b6b5f' : g <= 3 ? '#6cc06f' : g <= 7 ? '#e9a93c' : '#d96b53'; }
+  function colorFor(tr) {
+    if (colorMode === 'slope') return slopeColor(tr.elevation ? tr.elevation.maxGradePct : null);
+    if (colorMode === 'surface') return tr.type === 'gravel' ? '#e9a93c' : tr.type === 'mtb' ? '#d96b53' : '#6cc06f';
+    return EBC[tr.eb];
+  }
+  function recolor() { TRAILS.forEach(function (tr) { var L0 = layers[tr.id]; if (!L0 || L0.kind !== 'line' || tr.id === activeId) return; L0.line.setStyle({ color: colorFor(tr) }); }); }
+  document.querySelectorAll('#colorseg button').forEach(function (b) { b.addEventListener('click', function () { document.querySelectorAll('#colorseg button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); colorMode = b.dataset.color; recolor(); }); });
+
   document.querySelectorAll('#typeseg button').forEach(function (b) { b.addEventListener('click', function () { document.querySelectorAll('#typeseg button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); fType = b.dataset.type; renderList(); }); });
   document.querySelectorAll('#ebseg button').forEach(function (b) { b.addEventListener('click', function () { document.querySelectorAll('#ebseg button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); fEb = b.dataset.eb; renderList(); }); });
   document.getElementById('sheetHandle').addEventListener('click', function () { document.getElementById('sidebar').classList.toggle('expanded'); });
@@ -165,8 +204,9 @@ window.ATLAS_READY.then(function (A) {
   function fixSize() { map.invalidateSize(true); }
   window.addEventListener('load', function () { setTimeout(fixSize, 150); }); setTimeout(fixSize, 300); setTimeout(fixSize, 900);
   if (window.ResizeObserver) new ResizeObserver(fixSize).observe(document.getElementById('mapwrap'));
-  // expose for the view-switch (invalidate size when returning to the flat map)
+  // expose for the view-switch + network view (cross-view selection)
   window.__atlasFlat = { map: map, fixSize: fixSize };
+  window.__atlasSelect = function (id) { try { select(id); } catch (e) { /* */ } };
 
   renderList();
 }).catch(function (e) {

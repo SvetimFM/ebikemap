@@ -1,0 +1,572 @@
+{
+ "m2s": [
+  {
+   "to": "lutherburbank",
+   "at": [
+    47.5894,
+    -122.232
+   ],
+   "label": "links via",
+   "gapM": 386
+  }
+ ],
+ "burke": [
+  {
+   "to": "shipcanal",
+   "at": [
+    47.647495,
+    -122.34957
+   ],
+   "label": "links via",
+   "gapM": 102
+  },
+  {
+   "to": "sammamish",
+   "at": [
+    47.754535000000004,
+    -122.20939000000001
+   ],
+   "label": "continues as",
+   "gapM": 43
+  },
+  {
+   "to": "gasworks",
+   "at": [
+    47.64626,
+    -122.334215
+   ],
+   "label": "links via",
+   "gapM": 149
+  },
+  {
+   "to": "magnuson",
+   "at": [
+    47.681015,
+    -122.25702
+   ],
+   "label": "links via",
+   "gapM": 1201
+  },
+  {
+   "to": "goldengardens",
+   "at": [
+    47.68974,
+    -122.40274500000001
+   ],
+   "label": "links via",
+   "gapM": 438
+  },
+  {
+   "to": "lakeunion",
+   "at": [
+    47.64759,
+    -122.33942
+   ],
+   "label": "continues as",
+   "gapM": 0
+  }
+ ],
+ "chiefsealth": [
+  {
+   "to": "seward",
+   "at": [
+    47.54332,
+    -122.27096499999999
+   ],
+   "label": "links via",
+   "gapM": 2460
+  }
+ ],
+ "elliott": [],
+ "alki": [],
+ "duwamish": [],
+ "shipcanal": [
+  {
+   "to": "burke",
+   "at": [
+    47.647495,
+    -122.34957
+   ],
+   "label": "links via",
+   "gapM": 102
+  },
+  {
+   "to": "lakeunion",
+   "at": [
+    47.64716,
+    -122.34988
+   ],
+   "label": "continues as",
+   "gapM": 33
+  },
+  {
+   "to": "gasworks",
+   "at": [
+    47.6464,
+    -122.34224499999999
+   ],
+   "label": "links via",
+   "gapM": 1189
+  },
+  {
+   "to": "discovery",
+   "at": [
+    47.65592,
+    -122.3922
+   ],
+   "label": "links via",
+   "gapM": 2045
+  }
+ ],
+ "lakeunion": [
+  {
+   "to": "shipcanal",
+   "at": [
+    47.64716,
+    -122.34988
+   ],
+   "label": "continues as",
+   "gapM": 33
+  },
+  {
+   "to": "gasworks",
+   "at": [
+    47.646255,
+    -122.33420000000001
+   ],
+   "label": "links via",
+   "gapM": 149
+  },
+  {
+   "to": "burke",
+   "at": [
+    47.64759,
+    -122.33942
+   ],
+   "label": "continues as",
+   "gapM": 0
+  }
+ ],
+ "greenlake": [
+  {
+   "to": "interurbanN",
+   "at": [
+    47.69246,
+    -122.34617
+   ],
+   "label": "links via",
+   "gapM": 2046
+  }
+ ],
+ "sammamish": [
+  {
+   "to": "burke",
+   "at": [
+    47.754535000000004,
+    -122.20939000000001
+   ],
+   "label": "continues as",
+   "gapM": 43
+  },
+  {
+   "to": "elst",
+   "at": [
+    47.670285,
+    -122.119205
+   ],
+   "label": "links via",
+   "gapM": 1276
+  },
+  {
+   "to": "rcc",
+   "at": [
+    47.675265,
+    -122.133415
+   ],
+   "label": "links via",
+   "gapM": 147
+  },
+  {
+   "to": "marymoor",
+   "at": [
+    47.668144999999996,
+    -122.122845
+   ],
+   "label": "links via",
+   "gapM": 934
+  },
+  {
+   "to": "tolt",
+   "at": [
+    47.747344999999996,
+    -122.167055
+   ],
+   "label": "links via",
+   "gapM": 602
+  }
+ ],
+ "elst": [
+  {
+   "to": "sammamish",
+   "at": [
+    47.670285,
+    -122.119205
+   ],
+   "label": "links via",
+   "gapM": 1276
+  },
+  {
+   "to": "rcc",
+   "at": [
+    47.671545,
+    -122.117695
+   ],
+   "label": "links via",
+   "gapM": 1116
+  },
+  {
+   "to": "marymoor",
+   "at": [
+    47.667640000000006,
+    -122.11436
+   ],
+   "label": "links via",
+   "gapM": 724
+  }
+ ],
+ "rcc": [
+  {
+   "to": "sammamish",
+   "at": [
+    47.675265,
+    -122.133415
+   ],
+   "label": "links via",
+   "gapM": 147
+  },
+  {
+   "to": "elst",
+   "at": [
+    47.671545,
+    -122.117695
+   ],
+   "label": "links via",
+   "gapM": 1116
+  },
+  {
+   "to": "ckc",
+   "at": [
+    47.703105,
+    -122.16640000000001
+   ],
+   "label": "links via",
+   "gapM": 2204
+  },
+  {
+   "to": "marymoor",
+   "at": [
+    47.669405,
+    -122.12133499999999
+   ],
+   "label": "links via",
+   "gapM": 1002
+  }
+ ],
+ "cedar": [
+  {
+   "to": "l2s",
+   "at": [
+    47.484075000000004,
+    -122.212595
+   ],
+   "label": "links via",
+   "gapM": 689
+  },
+  {
+   "to": "soos",
+   "at": [
+    47.46521,
+    -122.15371
+   ],
+   "label": "links via",
+   "gapM": 759
+  }
+ ],
+ "green": [
+  {
+   "to": "interurbanS",
+   "at": [
+    47.45485,
+    -122.24334999999999
+   ],
+   "label": "links via",
+   "gapM": 116
+  },
+  {
+   "to": "l2s",
+   "at": [
+    47.46246,
+    -122.256575
+   ],
+   "label": "links via",
+   "gapM": 1121
+  }
+ ],
+ "interurbanS": [
+  {
+   "to": "green",
+   "at": [
+    47.45485,
+    -122.24334999999999
+   ],
+   "label": "links via",
+   "gapM": 116
+  },
+  {
+   "to": "l2s",
+   "at": [
+    47.469260000000006,
+    -122.24148
+   ],
+   "label": "links via",
+   "gapM": 649
+  }
+ ],
+ "interurbanN": [
+  {
+   "to": "greenlake",
+   "at": [
+    47.69246,
+    -122.34617
+   ],
+   "label": "links via",
+   "gapM": 2046
+  }
+ ],
+ "l2s": [
+  {
+   "to": "cedar",
+   "at": [
+    47.484075000000004,
+    -122.212595
+   ],
+   "label": "links via",
+   "gapM": 689
+  },
+  {
+   "to": "green",
+   "at": [
+    47.46246,
+    -122.256575
+   ],
+   "label": "links via",
+   "gapM": 1121
+  },
+  {
+   "to": "interurbanS",
+   "at": [
+    47.469260000000006,
+    -122.24148
+   ],
+   "label": "links via",
+   "gapM": 649
+  }
+ ],
+ "soos": [
+  {
+   "to": "cedar",
+   "at": [
+    47.46521,
+    -122.15371
+   ],
+   "label": "links via",
+   "gapM": 759
+  }
+ ],
+ "ckc": [
+  {
+   "to": "rcc",
+   "at": [
+    47.703105,
+    -122.16640000000001
+   ],
+   "label": "links via",
+   "gapM": 2204
+  },
+  {
+   "to": "eastrail",
+   "at": [
+    47.644115,
+    -122.19427999999999
+   ],
+   "label": "continues as",
+   "gapM": 14
+  }
+ ],
+ "eastrail": [
+  {
+   "to": "ckc",
+   "at": [
+    47.644115,
+    -122.19427999999999
+   ],
+   "label": "continues as",
+   "gapM": 14
+  }
+ ],
+ "tolt": [
+  {
+   "to": "sammamish",
+   "at": [
+    47.747344999999996,
+    -122.167055
+   ],
+   "label": "links via",
+   "gapM": 602
+  }
+ ],
+ "cheasty": [],
+ "colonnade": [],
+ "stedward": [
+  {
+   "to": "bigfinn",
+   "at": [
+    47.729150000000004,
+    -122.2514
+   ],
+   "label": "links via",
+   "gapM": 2436
+  }
+ ],
+ "bigfinn": [
+  {
+   "to": "stedward",
+   "at": [
+    47.729150000000004,
+    -122.2514
+   ],
+   "label": "links via",
+   "gapM": 2436
+  }
+ ],
+ "soaring": [],
+ "duthie": [],
+ "pioneer": [],
+ "gasworks": [
+  {
+   "to": "burke",
+   "at": [
+    47.64626,
+    -122.334215
+   ],
+   "label": "links via",
+   "gapM": 149
+  },
+  {
+   "to": "lakeunion",
+   "at": [
+    47.646255,
+    -122.33420000000001
+   ],
+   "label": "links via",
+   "gapM": 149
+  },
+  {
+   "to": "shipcanal",
+   "at": [
+    47.6464,
+    -122.34224499999999
+   ],
+   "label": "links via",
+   "gapM": 1189
+  }
+ ],
+ "discovery": [
+  {
+   "to": "shipcanal",
+   "at": [
+    47.65592,
+    -122.3922
+   ],
+   "label": "links via",
+   "gapM": 2045
+  }
+ ],
+ "seward": [
+  {
+   "to": "chiefsealth",
+   "at": [
+    47.54332,
+    -122.27096499999999
+   ],
+   "label": "links via",
+   "gapM": 2460
+  }
+ ],
+ "magnuson": [
+  {
+   "to": "burke",
+   "at": [
+    47.681015,
+    -122.25702
+   ],
+   "label": "links via",
+   "gapM": 1201
+  }
+ ],
+ "goldengardens": [
+  {
+   "to": "burke",
+   "at": [
+    47.68974,
+    -122.40274500000001
+   ],
+   "label": "links via",
+   "gapM": 438
+  }
+ ],
+ "arboretum": [],
+ "lincolnpark": [],
+ "carkeek": [],
+ "volunteer": [],
+ "marymoor": [
+  {
+   "to": "sammamish",
+   "at": [
+    47.668144999999996,
+    -122.122845
+   ],
+   "label": "links via",
+   "gapM": 934
+  },
+  {
+   "to": "elst",
+   "at": [
+    47.667640000000006,
+    -122.11436
+   ],
+   "label": "links via",
+   "gapM": 724
+  },
+  {
+   "to": "rcc",
+   "at": [
+    47.669405,
+    -122.12133499999999
+   ],
+   "label": "links via",
+   "gapM": 1002
+  }
+ ],
+ "lutherburbank": [
+  {
+   "to": "m2s",
+   "at": [
+    47.5894,
+    -122.232
+   ],
+   "label": "links via",
+   "gapM": 386
+  }
+ ]
+}

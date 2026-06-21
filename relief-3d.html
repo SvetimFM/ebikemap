@@ -43,7 +43,7 @@
     </div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#5f6d60;margin-top:11px;line-height:1.6;display:flex;align-items:center;gap:6px;">
       <span style="width:6px;height:6px;border-radius:50%;background:#e9a93c;display:inline-block;flex:none;animation:r3-fade 2s ease-in-out infinite alternate;"></span>
-      Terrain synthesized · trail profiles from real DEM (USGS&nbsp;3DEP)
+      {{ terrainNote }}
     </div>
   </div>
 
@@ -136,7 +136,7 @@ class Component extends DCLogic {
   _setMount = (el)=>{ if(el) this._mountEl=el; };
 
   componentDidMount(){
-    this._waitLibs(()=>this._init());
+    this._waitLibs(()=>this._loadHeightfield(()=>this._init()));
   }
   componentWillUnmount(){ this._stop=true; if(this._renderer) this._renderer.dispose && this._renderer.dispose(); window.removeEventListener('resize', this._onResize); }
 
@@ -144,6 +144,37 @@ class Component extends DCLogic {
     const ok = ()=> window.THREE && THREE.OrbitControls && window.ATLAS;
     if(ok()) return cb();
     let n=0; const id=setInterval(()=>{ if(ok()){clearInterval(id);cb();} else if(++n>120){clearInterval(id);} },50);
+  }
+
+  /* ---------- real DEM heightfield (P3) ---------- */
+  // Loads the baked terrarium-encoded heightfield PNG; falls back silently to the
+  // synthesized gaussian field if absent (offline / not yet baked).
+  _loadHeightfield(cb){
+    fetch('data/relief/heightfield.json').then(r=>r.ok?r.json():Promise.reject()).then(meta=>{
+      const img=new Image();
+      img.onload=()=>{
+        try{
+          const c=document.createElement('canvas'); c.width=meta.nx; c.height=meta.ny;
+          const cx=c.getContext('2d'); cx.drawImage(img,0,0);
+          const px=cx.getImageData(0,0,meta.nx,meta.ny).data;
+          const data=new Float32Array(meta.nx*meta.ny);
+          for(let k=0;k<meta.nx*meta.ny;k++){ const i=k*4; data[k]=px[i]*256+px[i+1]+px[i+2]/256-32768; }
+          this._hf={data,nx:meta.nx,ny:meta.ny,bbox:meta.bbox,source:meta.source};
+        }catch(e){ /* tainted/again fall back */ }
+        cb();
+      };
+      img.onerror=()=>cb();
+      img.src='data/relief/heightfield.png';
+    }).catch(()=>cb());
+  }
+  _hfHeight(lng,lat){
+    const hf=this._hf, [w,s,e,nLa]=[hf.bbox[0],hf.bbox[1],hf.bbox[2],hf.bbox[3]];
+    let fx=(lng-w)/(e-w)*(hf.nx-1), fy=(nLa-lat)/(nLa-s)*(hf.ny-1);
+    fx=Math.max(0,Math.min(hf.nx-1,fx)); fy=Math.max(0,Math.min(hf.ny-1,fy));
+    const x0=Math.floor(fx),y0=Math.floor(fy),dx=fx-x0,dy=fy-y0;
+    const x1=Math.min(hf.nx-1,x0+1),y1=Math.min(hf.ny-1,y0+1);
+    const a=hf.data[y0*hf.nx+x0],b=hf.data[y0*hf.nx+x1],c=hf.data[y1*hf.nx+x0],d=hf.data[y1*hf.nx+x1];
+    return a*(1-dx)*(1-dy)+b*dx*(1-dy)+c*(1-dx)*dy+d*dx*dy;
   }
 
   /* ---------- synthesized terrain field ---------- */
@@ -202,6 +233,7 @@ class Component extends DCLogic {
     return inside;
   }
   heightMeters(lng,lat){
+    if(this._hf) return this._hfHeight(lng,lat); // real DEM when baked
     if(!this.WATER) this._buildWater();
     const onMI = this._inRing(lng,lat,this.MI);
     if(!onMI){
@@ -517,6 +549,7 @@ class Component extends DCLogic {
       autoRotate:s.autoRotate, rotColor:s.autoRotate?'#e9a93c':'#bcc5b6',
       toggleFly:this.toggleFly, clearSel:this.clearSel,
       toggleRotate:this.toggleRotate, resetView:this.resetView,
+      terrainNote:this._hf?'Terrain: real DEM · USGS 3DEP / Mapzen (public domain)':'Terrain synthesized · trail profiles from real DEM',
       mount:this._setMount
     };
   }

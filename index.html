@@ -54,6 +54,7 @@
       <div class="seg viewseg" id="viewseg">
         <button data-view="flat" class="on">Flat map</button>
         <button data-view="3d">3D relief</button>
+        <button data-view="net">Network</button>
       </div>
       <span class="ctl-label">Type</span>
       <div class="seg" id="typeseg">
@@ -82,10 +83,27 @@
     <div id="mapwrap">
       <div id="map"></div>
       <iframe id="view3d" title="Seattle Metro Relief — 3D trail atlas" loading="lazy"></iframe>
+      <div id="viewnet"><div id="netmap"></div>
+        <div class="net-legend">
+          <h4>Network · connections</h4>
+          <div class="row"><span class="nd" style="background:var(--ok)"></span>node = trail (size ∝ length)</div>
+          <div class="row"><span class="ne solid"></span>continues as</div>
+          <div class="row"><span class="ne dash"></span>links via</div>
+          <div class="row"><span class="ne rail"></span>Link light rail</div>
+          <div class="net-note">Click a trail to open it.</div>
+        </div>
+      </div>
       <div class="ctlstack">
+        <span class="ctl-label" style="align-self:flex-end">Color by</span>
+        <div class="seg" id="colorseg">
+          <button data-color="eb" class="on">E-bike</button>
+          <button data-color="slope">Slope</button>
+          <button data-color="surface">Surface</button>
+        </div>
+        <button class="toggle-btn on" id="railBtn"><span class="d"></span>Link 1/2 Line</button>
         <button class="toggle-btn on" id="stnBtn"><span class="d"></span>Link stations</button>
         <button class="toggle-btn on" id="parkBtn"><span class="d" style="background:#4fae6a"></span>Parks layer</button>
-        <div class="ministat">Offline vector basemap +<br>embedded photos — no network.</div>
+        <div class="ministat">Vector basemap · real OSM trail<br>geometry · USGS&nbsp;3DEP elevation.</div>
       </div>
       <div class="legend">
         <h4>E-bike rules (line &amp; pin color)</h4>
@@ -116,11 +134,10 @@
   </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<!-- legacy base64 photos (P0 only — deleted in P1 when real imagery lands) -->
-<script src="data/images.js"></script>
 <script src="js/data.js"></script>
 <script src="js/elevation.js"></script>
 <script src="js/map-flat.js"></script>
+<script src="js/view-network.js"></script>
 <script src="js/view-switch.js"></script>
 </body>
 </html>
