@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Judkins Park",
+    "lat": 47.5928,
+    "lng": -122.2978,
+    "note": "2 Line station"
+  },
+  {
+    "name": "Mount Baker",
+    "lat": 47.5775,
+    "lng": -122.2975,
+    "note": "1 Line"
+  },
+  {
+    "name": "Beacon Hill",
+    "lat": 47.579,
+    "lng": -122.3115,
+    "note": "1 Line"
+  },
+  {
+    "name": "Columbia City",
+    "lat": 47.56,
+    "lng": -122.2925,
+    "note": "1 Line"
+  },
+  {
+    "name": "Othello",
+    "lat": 47.5375,
+    "lng": -122.2815,
+    "note": "1 Line"
+  },
+  {
+    "name": "Rainier Beach",
+    "lat": 47.5225,
+    "lng": -122.279,
+    "note": "1 Line"
+  },
+  {
+    "name": "Mercer Island",
+    "lat": 47.5875,
+    "lng": -122.233,
+    "note": "2 Line"
+  },
+  {
+    "name": "South Bellevue",
+    "lat": 47.586,
+    "lng": -122.192,
+    "note": "2 Line"
+  },
+  {
+    "name": "Downtown Redmond",
+    "lat": 47.674,
+    "lng": -122.124,
+    "note": "2 Line"
+  },
+  {
+    "name": "Marymoor Village",
+    "lat": 47.6665,
+    "lng": -122.1085,
+    "note": "2 Line"
+  }
+]

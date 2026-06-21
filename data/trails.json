@@ -1,0 +1,1873 @@
+[
+ {
+  "id": "m2s",
+  "name": "Mountains to Sound / I-90 Trail",
+  "area": "Seattle → Mercer I. → Bellevue",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "img": "m2s",
+  "len": "~10 mi",
+  "surface": "Paved",
+  "diff": "Flat · commuter",
+  "manager": "WSDOT / SDOT / City of Mercer Island",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> — one of Seattle Parks' officially approved trails. 15 mph; Class 3 not allowed.",
+  "blurb": "The car-free spine east. It passes the 23rd Ave entrance of Judkins Park Station, wraps Beacon Hill along the freeway, crosses Lake Washington on the Lacey V. Murrow floating bridge, then runs the length of Mercer Island to the East Channel Bridge and into Bellevue — the direct car-free spine east to the whole Eastside network.",
+  "conn": "Chief Sealth Trail, I-90 floating bridge, Mercer Island Loop, Eastrail (Bellevue), Rainier Valley Greenway, downtown via Dearborn.",
+  "status": "New trail lighting + the Hiawatha staircase completed 2024; Judkins Park 2 Line station opened March 28, 2026.",
+  "coord": "47.5905, -122.2965 (Judkins Park trailhead)",
+  "path": [
+   [
+    47.5905,
+    -122.2965
+   ],
+   [
+    47.5908,
+    -122.2925
+   ],
+   [
+    47.5905,
+    -122.2855
+   ],
+   [
+    47.59,
+    -122.278
+   ],
+   [
+    47.5895,
+    -122.269
+   ],
+   [
+    47.589,
+    -122.256
+   ],
+   [
+    47.5885,
+    -122.244
+   ],
+   [
+    47.5878,
+    -122.233
+   ],
+   [
+    47.5872,
+    -122.221
+   ],
+   [
+    47.5868,
+    -122.209
+   ],
+   [
+    47.5862,
+    -122.1955
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5905,-122.2965"
+   ],
+   [
+    "Mtns to Sound Greenway",
+    "https://mtsgreenway.org/"
+   ],
+   [
+    "SDOT Bike Map",
+    "https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-map"
+   ]
+  ]
+ },
+ {
+  "id": "burke",
+  "name": "Burke-Gilman Trail",
+  "area": "Ballard → UW → Bothell",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "img": "burke",
+  "len": "~20 mi",
+  "surface": "Paved",
+  "diff": "Flat · commuter",
+  "manager": "City of Seattle (S) / King County (N)",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> · 15 mph. The region's backbone commuter trail.",
+  "blurb": "The classic — from Golden Gardens through Ballard, Fremont (Gas Works Park), and the UW campus, up the Lake Washington shore through Lake City and Kenmore to Blyth Park in Bothell, where it becomes the Sammamish River Trail. The 'Missing Link' in Ballard remains an on-street gap, now funded for a fix.",
+  "conn": "Sammamish River Trail, Ship Canal Trail, Interurban North, Gas Works &amp; Magnuson Parks, Golden Gardens, Cheshiahud Loop.",
+  "status": "Ballard Missing Link funded ($20M) via the 2024 Seattle Transportation Levy — new alignment in progress.",
+  "coord": "47.6917, -122.4030 (Golden Gardens) · 47.7545, -122.2090 (Blyth Park)",
+  "path": [
+   [
+    47.6917,
+    -122.403
+   ],
+   [
+    47.6855,
+    -122.3955
+   ],
+   [
+    47.68,
+    -122.3855
+   ],
+   [
+    47.67,
+    -122.376
+   ],
+   [
+    47.6592,
+    -122.364
+   ],
+   [
+    47.652,
+    -122.347
+   ],
+   [
+    47.6535,
+    -122.33
+   ],
+   [
+    47.654,
+    -122.312
+   ],
+   [
+    47.658,
+    -122.2995
+   ],
+   [
+    47.666,
+    -122.29
+   ],
+   [
+    47.68,
+    -122.279
+   ],
+   [
+    47.696,
+    -122.2725
+   ],
+   [
+    47.718,
+    -122.274
+   ],
+   [
+    47.74,
+    -122.2775
+   ],
+   [
+    47.756,
+    -122.274
+   ],
+   [
+    47.756,
+    -122.254
+   ],
+   [
+    47.7548,
+    -122.233
+   ],
+   [
+    47.7545,
+    -122.215
+   ],
+   [
+    47.7545,
+    -122.209
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails/leafline-trails/burke-gilman"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Burke%E2%80%93Gilman_Trail"
+   ],
+   [
+    "TrailLink",
+    "https://www.traillink.com/trail/burke-gilman-trail/"
+   ]
+  ]
+ },
+ {
+  "id": "chiefsealth",
+  "name": "Chief Sealth Trail",
+  "area": "Beacon Hill ridge",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "hidden": true,
+  "len": "~4 mi",
+  "surface": "Paved + gravel shoulder",
+  "diff": "Rolling · some steep",
+  "manager": "Seattle Parks / SDOT (City Light ROW)",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> (paved Seattle trail). 15 mph.",
+  "blurb": "A quiet hidden gem: a powerline-corridor trail running the spine of Beacon Hill with Cascade, Olympic, and Rainier views, built in 2007 from recycled soil and concrete. Rolling and occasionally steep, with confusing street jogs — just follow the powerlines. Links three light rail stations.",
+  "conn": "Mountains to Sound / I-90 Trail, Beacon Hill / Othello / Rainier Beach stations, Kubota Garden.",
+  "coord": "47.5605, -122.3133 (Jefferson Park, N end)",
+  "path": [
+   [
+    47.5605,
+    -122.3133
+   ],
+   [
+    47.556,
+    -122.3075
+   ],
+   [
+    47.55,
+    -122.301
+   ],
+   [
+    47.544,
+    -122.295
+   ],
+   [
+    47.538,
+    -122.289
+   ],
+   [
+    47.532,
+    -122.282
+   ],
+   [
+    47.525,
+    -122.2745
+   ],
+   [
+    47.5185,
+    -122.2685
+   ],
+   [
+    47.5165,
+    -122.268
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5605,-122.3133"
+   ],
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/chief-sealth-trail"
+   ]
+  ]
+ },
+ {
+  "id": "elliott",
+  "name": "Elliott Bay Trail",
+  "area": "Stadiums → Smith Cove",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~6 mi",
+  "surface": "Paved",
+  "diff": "Flat · scenic",
+  "manager": "Port of Seattle / Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> — an officially approved Seattle Parks trail.",
+  "blurb": "Waterfront riding from near the stadiums through Myrtle Edwards Park to Smith Cove, with big Sound and skyline views. Flat and fast.",
+  "conn": "Elliott Bay waterfront, Ship Canal Trail, downtown protected bike lanes, Discovery Park (via Magnolia).",
+  "status": "Myrtle Edwards / Centennial parks reopened June 4, 2026 after construction.",
+  "coord": "47.6235, -122.3565 (Myrtle Edwards)",
+  "path": [
+   [
+    47.5915,
+    -122.334
+   ],
+   [
+    47.601,
+    -122.343
+   ],
+   [
+    47.612,
+    -122.349
+   ],
+   [
+    47.6235,
+    -122.3565
+   ],
+   [
+    47.6285,
+    -122.369
+   ],
+   [
+    47.631,
+    -122.376
+   ]
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/myrtle-edwards-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6235,-122.3565"
+   ]
+  ]
+ },
+ {
+  "id": "alki",
+  "name": "Alki Trail",
+  "area": "West Seattle",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "img": "alkipark",
+  "len": "~4 mi",
+  "surface": "Paved promenade",
+  "diff": "Flat · family",
+  "manager": "Seattle Parks / SDOT",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b> Busy promenade — go slow around foot traffic.",
+  "blurb": "From under the West Seattle Bridge around Duwamish Head to Alki Point Lighthouse — a wide separated promenade with the best beach-and-skyline views in the city. Reachable by the West Seattle Water Taxi to Seacrest Park.",
+  "conn": "Duwamish Trail, West Seattle Bridge Trail, Water Taxi (Seacrest), Lincoln Park (south).",
+  "coord": "47.5762, -122.4205 (Alki Point)",
+  "path": [
+   [
+    47.591,
+    -122.379
+   ],
+   [
+    47.5875,
+    -122.3855
+   ],
+   [
+    47.5845,
+    -122.396
+   ],
+   [
+    47.58,
+    -122.408
+   ],
+   [
+    47.5762,
+    -122.4205
+   ]
+  ],
+  "links": [
+   [
+    "Outdoor Project",
+    "https://www.outdoorproject.com/united-states/washington/alki-trail"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5762,-122.4205"
+   ]
+  ]
+ },
+ {
+  "id": "duwamish",
+  "name": "Duwamish Trail",
+  "area": "West Seattle",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~3 mi",
+  "surface": "Paved",
+  "diff": "Flat",
+  "manager": "Seattle Parks / SDOT",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> — an officially approved Seattle Parks trail.",
+  "blurb": "A connector along the Duwamish linking the Alki Trail to the Green River Trail system to the south — the key piece for stitching West Seattle to the south-end network.",
+  "conn": "Alki Trail, Green River Trail, Lake to Sound Trail.",
+  "coord": "47.5660, -122.3520",
+  "path": [
+   [
+    47.572,
+    -122.349
+   ],
+   [
+    47.566,
+    -122.352
+   ],
+   [
+    47.5585,
+    -122.35
+   ],
+   [
+    47.55,
+    -122.346
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5660,-122.3520"
+   ]
+  ]
+ },
+ {
+  "id": "shipcanal",
+  "name": "Ship Canal Trail",
+  "area": "Fremont → Interbay",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~2.5 mi",
+  "surface": "Paved",
+  "diff": "Flat",
+  "manager": "SDOT / Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved portions.",
+  "blurb": "Runs the south side of the Lake Washington Ship Canal, connecting to the Burke-Gilman via the Fremont Bridge. A useful link toward Magnolia and the Elliott Bay waterfront.",
+  "conn": "Burke-Gilman (Fremont Bridge), Elliott Bay Trail, Cheshiahud Loop.",
+  "coord": "47.6478, -122.3497 (Fremont Bridge)",
+  "path": [
+   [
+    47.6478,
+    -122.3497
+   ],
+   [
+    47.6488,
+    -122.358
+   ],
+   [
+    47.6498,
+    -122.368
+   ],
+   [
+    47.6505,
+    -122.3775
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6478,-122.3497"
+   ]
+  ]
+ },
+ {
+  "id": "lakeunion",
+  "name": "Cheshiahud Lake Union Loop",
+  "area": "Lake Union, Seattle",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~6 mi loop",
+  "surface": "Mixed path + street",
+  "diff": "Flat · family",
+  "manager": "Seattle Parks / SDOT",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved/path portions; mixed on-street segments.",
+  "blurb": "A loop around Lake Union linking Gas Works Park, the houseboats, South Lake Union, and the canal — part path, part low-stress streets. A scenic in-city spin.",
+  "conn": "Burke-Gilman, Ship Canal Trail, Gas Works Park, Westlake protected bike lane.",
+  "coord": "47.6456, -122.3344 (Gas Works Park)",
+  "path": [
+   [
+    47.6456,
+    -122.3344
+   ],
+   [
+    47.644,
+    -122.327
+   ],
+   [
+    47.639,
+    -122.3225
+   ],
+   [
+    47.632,
+    -122.3215
+   ],
+   [
+    47.627,
+    -122.3255
+   ],
+   [
+    47.624,
+    -122.334
+   ],
+   [
+    47.6275,
+    -122.342
+   ],
+   [
+    47.636,
+    -122.344
+   ],
+   [
+    47.644,
+    -122.341
+   ],
+   [
+    47.6456,
+    -122.3344
+   ]
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/cheshiahud-lake-union-loop"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6456,-122.3344"
+   ]
+  ]
+ },
+ {
+  "id": "greenlake",
+  "name": "Green Lake Loop",
+  "area": "Green Lake, Seattle",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "img": "greenlake",
+  "len": "~3 mi loop",
+  "surface": "Paved (inner gravel)",
+  "diff": "Flat · very busy",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on the paved outer loop. Extremely busy — ride courteously and slowly.",
+  "blurb": "The iconic flat 3-mile lakeside loop. Beautiful but crowded with walkers, runners, and strollers; treat it as a relaxed cruise rather than a workout. A short hop from the Interurban North.",
+  "conn": "Interurban North, Burke-Gilman (short street links), Woodland Park.",
+  "coord": "47.6806, -122.3285",
+  "path": [
+   [
+    47.689,
+    -122.332
+   ],
+   [
+    47.6885,
+    -122.325
+   ],
+   [
+    47.6845,
+    -122.322
+   ],
+   [
+    47.679,
+    -122.3215
+   ],
+   [
+    47.6735,
+    -122.3245
+   ],
+   [
+    47.672,
+    -122.3315
+   ],
+   [
+    47.6745,
+    -122.338
+   ],
+   [
+    47.681,
+    -122.34
+   ],
+   [
+    47.687,
+    -122.3375
+   ],
+   [
+    47.689,
+    -122.332
+   ]
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/green-lake-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6806,-122.3285"
+   ]
+  ]
+ },
+ {
+  "id": "sammamish",
+  "name": "Sammamish River Trail",
+  "area": "Bothell → Redmond",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~10 mi",
+  "surface": "Paved (parallel dirt)",
+  "diff": "Flat · wine country",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> · 15 mph.",
+  "blurb": "Continues seamlessly from the Burke-Gilman at Blyth Park, following the slough south past Woodinville's wineries to Marymoor Park in Redmond. Flat, popular, and the central hinge of the Eastside trail network.",
+  "conn": "Burke-Gilman, Marymoor Park, East Lake Sammamish Trail, Redmond Central Connector, North Creek Trail.",
+  "status": "Intermittent closures near NE 175th St in early Nov 2025 — check status.",
+  "coord": "47.6655, -122.1180 (Marymoor)",
+  "path": [
+   [
+    47.7545,
+    -122.209
+   ],
+   [
+    47.751,
+    -122.19
+   ],
+   [
+    47.747,
+    -122.172
+   ],
+   [
+    47.741,
+    -122.164
+   ],
+   [
+    47.73,
+    -122.164
+   ],
+   [
+    47.715,
+    -122.158
+   ],
+   [
+    47.7,
+    -122.143
+   ],
+   [
+    47.685,
+    -122.128
+   ],
+   [
+    47.672,
+    -122.12
+   ],
+   [
+    47.6655,
+    -122.118
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails/leafline-trails/sammamish-river"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6655,-122.1180"
+   ]
+  ]
+ },
+ {
+  "id": "elst",
+  "name": "East Lake Sammamish Trail",
+  "area": "Redmond → Issaquah",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "11 mi",
+  "surface": "Paved (12 ft)",
+  "diff": "Flat · lakeshore",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b> Note: <b>e-scooters are banned</b> on the central federally-funded segment.",
+  "blurb": "Fully paved as of 2024, it runs the east shore of Lake Sammamish from Marymoor to Issaquah — flat, scenic, and the key connector linking the Redmond light rail stations to the Issaquah-Preston Trail and the whole Issaquah plateau.",
+  "conn": "Sammamish River Trail (via Marymoor Connector / RCC), Issaquah-Preston Trail, Grand Ridge, Duthie Hill.",
+  "status": "A segment closes starting June 1, 2026 for culvert replacement, lasting the rest of the year — check detours.",
+  "coord": "47.6655, -122.1180 (Marymoor) · 47.5460, -122.0460 (Issaquah)",
+  "path": [
+   [
+    47.6655,
+    -122.118
+   ],
+   [
+    47.65,
+    -122.107
+   ],
+   [
+    47.63,
+    -122.101
+   ],
+   [
+    47.61,
+    -122.095
+   ],
+   [
+    47.585,
+    -122.082
+   ],
+   [
+    47.565,
+    -122.068
+   ],
+   [
+    47.554,
+    -122.054
+   ],
+   [
+    47.546,
+    -122.046
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails/leafline-trails/east-lake-sammamish"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6655,-122.1180"
+   ]
+  ]
+ },
+ {
+  "id": "rcc",
+  "name": "Redmond Central Connector",
+  "area": "Redmond",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~3.9 mi",
+  "surface": "Paved (12 ft)",
+  "diff": "Flat",
+  "manager": "City of Redmond",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b>",
+  "blurb": "Completed September 2025, the final section created a continuous Eastrail link through Woodinville, Kirkland, and Redmond. Ties together the East Lake Sammamish, Bear Creek, and Sammamish River Trails and connects to Redmond's two light rail stations.",
+  "conn": "Sammamish River Trail, East Lake Sammamish Trail, Cross Kirkland Corridor, Downtown Redmond + Marymoor Village stations.",
+  "status": "Final segment opened Sept 2025.",
+  "coord": "47.6740, -122.1240 (Downtown Redmond)",
+  "path": [
+   [
+    47.7,
+    -122.161
+   ],
+   [
+    47.692,
+    -122.148
+   ],
+   [
+    47.684,
+    -122.136
+   ],
+   [
+    47.677,
+    -122.128
+   ],
+   [
+    47.674,
+    -122.124
+   ]
+  ],
+  "links": [
+   [
+    "City of Redmond",
+    "https://www.redmond.gov/1717/Redmond-Central-Connector-Trail"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6740,-122.1240"
+   ]
+  ]
+ },
+ {
+  "id": "cedar",
+  "name": "Cedar River Trail",
+  "area": "Renton → Maple Valley",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~17 mi",
+  "surface": "Paved (gravel upper ~5 mi)",
+  "diff": "Flat → gentle climb",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b> 10 mph within Renton city limits; bikes banned on the first 0.6 mi in Renton — use Nishiwaki Lane.",
+  "blurb": "Follows the Cedar River from Lake Washington in Renton upstream toward Landsburg, paved for the first ~12 miles then packed gravel. Gradual uphill heading south; great fall salmon viewing.",
+  "conn": "Green River Trail, Lake to Sound Trail, Green-to-Cedar Rivers Trail (Maple Valley).",
+  "status": "Washout/closure between Cedar River Dog Park and Riverview Park as of Dec 2025 — check status.",
+  "coord": "47.5030, -122.2100 (Renton)",
+  "path": [
+   [
+    47.503,
+    -122.21
+   ],
+   [
+    47.492,
+    -122.195
+   ],
+   [
+    47.478,
+    -122.17
+   ],
+   [
+    47.465,
+    -122.148
+   ],
+   [
+    47.45,
+    -122.128
+   ],
+   [
+    47.43,
+    -122.105
+   ],
+   [
+    47.405,
+    -122.072
+   ],
+   [
+    47.382,
+    -122.05
+   ],
+   [
+    47.366,
+    -122.045
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5030,-122.2100"
+   ]
+  ]
+ },
+ {
+  "id": "green",
+  "name": "Green River Trail",
+  "area": "Tukwila → Kent",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~20 mi",
+  "surface": "Paved",
+  "diff": "Flat",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b>",
+  "blurb": "Follows the Green River from Tukwila/Duwamish through Kent's valley. Flat and quiet; links the West Seattle / Duwamish trails to the Interurban and Cedar River systems.",
+  "conn": "Duwamish Trail, Interurban South, Cedar River Trail, Lake to Sound.",
+  "status": "A Dec 2025 levee breach in Tukwila affected Green River &amp; Interurban South trails — check conditions.",
+  "coord": "47.4640, -122.2470 (Fort Dent, Tukwila)",
+  "path": [
+   [
+    47.464,
+    -122.247
+   ],
+   [
+    47.45,
+    -122.25
+   ],
+   [
+    47.435,
+    -122.253
+   ],
+   [
+    47.42,
+    -122.254
+   ],
+   [
+    47.405,
+    -122.251
+   ],
+   [
+    47.39,
+    -122.247
+   ],
+   [
+    47.382,
+    -122.245
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.4640,-122.2470"
+   ]
+  ]
+ },
+ {
+  "id": "interurbanS",
+  "name": "Interurban Trail South",
+  "area": "Tukwila → Auburn",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~14.7 mi",
+  "surface": "Paved + soft shoulder",
+  "diff": "Flat · commuter",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b>",
+  "blurb": "A flat, straight north-south commuter route through Tukwila, Kent, and Auburn on a historic interurban railway alignment. Connects to the Green River Trail near Fort Dent.",
+  "conn": "Green River Trail, Lake to Sound Trail.",
+  "coord": "47.4640, -122.2495 (Fort Dent)",
+  "path": [
+   [
+    47.464,
+    -122.2495
+   ],
+   [
+    47.44,
+    -122.247
+   ],
+   [
+    47.415,
+    -122.244
+   ],
+   [
+    47.39,
+    -122.239
+   ],
+   [
+    47.36,
+    -122.233
+   ],
+   [
+    47.33,
+    -122.229
+   ],
+   [
+    47.307,
+    -122.228
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails/leafline-trails/interurban-trail"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.4640,-122.2495"
+   ]
+  ]
+ },
+ {
+  "id": "interurbanN",
+  "name": "Interurban Trail North",
+  "area": "Seattle → Lynnwood",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~24 mi",
+  "surface": "Paved + on-street",
+  "diff": "Flat · some street",
+  "manager": "Shoreline / Edmonds / Snohomish Co.",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved portions.",
+  "blurb": "Runs north from Seattle through Shoreline, Mountlake Terrace, Edmonds, and Lynnwood. Note the awkward SR-104 crossing between Shoreline and Edmonds; the 2025 King County Parks Levy includes funds to bridge that gap.",
+  "conn": "Burke-Gilman (street links), Green Lake, North Creek Trail.",
+  "status": "2025 Parks Levy: $8M for the Interurban incl. $5M to fix the SR-104 gap.",
+  "coord": "47.7560, -122.3450 (Shoreline)",
+  "path": [
+   [
+    47.7,
+    -122.354
+   ],
+   [
+    47.715,
+    -122.355
+   ],
+   [
+    47.735,
+    -122.349
+   ],
+   [
+    47.756,
+    -122.345
+   ],
+   [
+    47.775,
+    -122.336
+   ],
+   [
+    47.795,
+    -122.328
+   ],
+   [
+    47.815,
+    -122.316
+   ],
+   [
+    47.835,
+    -122.305
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.7560,-122.3450"
+   ]
+  ]
+ },
+ {
+  "id": "l2s",
+  "name": "Lake to Sound Trail",
+  "area": "Renton → Des Moines",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "11 of 16 mi open",
+  "surface": "Paved (12 ft)",
+  "diff": "Flat",
+  "manager": "King County + 5 cities",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b>",
+  "blurb": "The newest big addition: the 2.2-mi Segment C opened June 7, 2025, bringing the trail to two-thirds complete and creating 7+ continuous miles linking Burien and SeaTac to the Des Moines Creek Trail. When finished it ties Eastrail, Cedar River, Interurban, and Green River trails to two Link stations and the airport.",
+  "conn": "Cedar River, Interurban South, Green River, Des Moines Creek Trail, Sea-Tac Airport.",
+  "status": "Segment C opened June 7, 2025 — 11 of 16 miles now complete.",
+  "coord": "47.4820, -122.2160 (Renton end)",
+  "path": [
+   [
+    47.482,
+    -122.216
+   ],
+   [
+    47.472,
+    -122.24
+   ],
+   [
+    47.462,
+    -122.264
+   ],
+   [
+    47.45,
+    -122.29
+   ],
+   [
+    47.435,
+    -122.315
+   ],
+   [
+    47.418,
+    -122.326
+   ],
+   [
+    47.403,
+    -122.33
+   ]
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/trails"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.4820,-122.2160"
+   ]
+  ]
+ },
+ {
+  "id": "soos",
+  "name": "Soos Creek Trail",
+  "area": "Renton → Kent",
+  "type": "paved",
+  "eb": "ok",
+  "geom": "line",
+  "len": "~7 mi",
+  "surface": "Paved",
+  "diff": "Flat · quiet",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b>",
+  "blurb": "A peaceful family trail through wetlands and farmland from near Renton south to Lake Meridian in Kent. The 2025 Parks Levy funds an extension to link it to the Cedar River Trail.",
+  "conn": "(Planned) Cedar River Trail, Lake Meridian Park.",
+  "coord": "47.4620, -122.1520",
+  "path": [
+   [
+    47.462,
+    -122.152
+   ],
+   [
+    47.445,
+    -122.148
+   ],
+   [
+    47.425,
+    -122.145
+   ],
+   [
+    47.405,
+    -122.142
+   ],
+   [
+    47.385,
+    -122.14
+   ]
+  ],
+  "links": [
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.4620,-122.1520"
+   ]
+  ]
+ },
+ {
+  "id": "ckc",
+  "name": "Cross Kirkland Corridor",
+  "area": "Kirkland",
+  "type": "gravel",
+  "eb": "ok",
+  "geom": "line",
+  "len": "5.75 mi",
+  "surface": "Crushed gravel (10 ft)",
+  "diff": "Flat · railbed",
+  "manager": "City of Kirkland (Eastrail segment)",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed.</b> Uniquely open 5am–11pm — Kirkland treats it as a transportation spine.",
+  "blurb": "A flat former railbed through the heart of Kirkland, past Google's campus with lake and skyline views and the 2023 Totem Lake pedestrian bridge. The central Eastside segment of Eastrail.",
+  "conn": "Eastrail (Bellevue, south), Redmond Central Connector (east), South Kirkland Park &amp; Ride.",
+  "status": "A section closed NE 53rd–108th Ave NE for repairs as of Jan 2026 — check status.",
+  "coord": "47.6430, -122.1955 (S Kirkland P&R)",
+  "path": [
+   [
+    47.643,
+    -122.1955
+   ],
+   [
+    47.652,
+    -122.196
+   ],
+   [
+    47.662,
+    -122.1985
+   ],
+   [
+    47.673,
+    -122.2
+   ],
+   [
+    47.685,
+    -122.196
+   ],
+   [
+    47.696,
+    -122.189
+   ],
+   [
+    47.706,
+    -122.181
+   ]
+  ],
+  "links": [
+   [
+    "City of Kirkland",
+    "https://www.kirklandwa.gov/Government/Departments/Public-Works-Department/Cross-Kirkland-Corridor/Cross-Kirkland-Corridor-Interim-Trail"
+   ],
+   [
+    "TrailLink",
+    "https://www.traillink.com/trail/cross-kirkland-corridor/"
+   ]
+  ]
+ },
+ {
+  "id": "eastrail",
+  "name": "Eastrail (Bellevue–Renton)",
+  "area": "Bellevue / Renton",
+  "type": "gravel",
+  "eb": "ok",
+  "geom": "line",
+  "len": "16+ mi open",
+  "surface": "Paved &amp; interim gravel",
+  "diff": "Flat · railbed",
+  "manager": "King County + partners",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> · 15 mph (per Eastrail Partners).",
+  "blurb": "The big ongoing project — a planned continuous 42-mile spine from Renton to Snohomish. Today 2.3 mi is open in Bellevue (interim gravel) joining the Cross Kirkland Corridor, plus a paved 2.4-mi Renton segment. The Wilburton Trestle conversion began May 2024.",
+  "conn": "Cross Kirkland Corridor, Redmond Central Connector, (future) I-90 Trail, Cedar River.",
+  "status": "Trail across the Wilburton Trestle &amp; I-405 expected to open by mid-2027; I-90 crossing ~2031.",
+  "coord": "47.6230, -122.1900 (Wilburton, Bellevue)",
+  "path": [
+   [
+    47.61,
+    -122.186
+   ],
+   [
+    47.616,
+    -122.1875
+   ],
+   [
+    47.623,
+    -122.19
+   ],
+   [
+    47.631,
+    -122.194
+   ],
+   [
+    47.64,
+    -122.1955
+   ],
+   [
+    47.643,
+    -122.1955
+   ]
+  ],
+  "links": [
+   [
+    "Eastrail Partners",
+    "https://eastrailpartners.org/"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6230,-122.1900"
+   ]
+  ]
+ },
+ {
+  "id": "tolt",
+  "name": "Tolt Pipeline Trail",
+  "area": "Bothell → Duvall",
+  "type": "gravel",
+  "eb": "ok",
+  "geom": "line",
+  "hidden": true,
+  "len": "~12 mi",
+  "surface": "Gravel / dirt doubletrack",
+  "diff": "Very steep rollers (~22%)",
+  "manager": "King County (SPU pipeline ROW)",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> (King County trail) — but the brutal grades make this rugged for <i>any</i> bike. A fat-tire or e-MTB helps.",
+  "blurb": "A hidden, rugged gem: a 100-ft-wide powerline corridor of gravel and dirt doubletrack with punishing, undulating grades ('Heart Attack Hill'). Little shade, shared with horses. Connects the Sammamish River Trail to the Snoqualmie Valley Trail.",
+  "conn": "Burke-Gilman / Sammamish River Trail (west), Snoqualmie Valley Trail (east), Redmond Watershed Preserve.",
+  "status": "Gaps at I-405 and the Sammamish River require short detours.",
+  "coord": "47.7365, -122.0806 (Avondale Rd midpoint lot)",
+  "path": [
+   [
+    47.746,
+    -122.202
+   ],
+   [
+    47.7455,
+    -122.17
+   ],
+   [
+    47.744,
+    -122.14
+   ],
+   [
+    47.742,
+    -122.11
+   ],
+   [
+    47.739,
+    -122.081
+   ],
+   [
+    47.742,
+    -122.04
+   ],
+   [
+    47.743,
+    -122
+   ],
+   [
+    47.743,
+    -121.985
+   ]
+  ],
+  "links": [
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Tolt_Pipeline_Trail"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.7365,-122.0806"
+   ]
+  ]
+ },
+ {
+  "id": "cheasty",
+  "name": "Cheasty Greenspace (Trillium Loop)",
+  "area": "Beacon Hill, Seattle",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "C",
+  "hidden": true,
+  "len": "~1.4 mi singletrack",
+  "surface": "Dirt singletrack",
+  "diff": "Flowy · steep · forested",
+  "manager": "Seattle Parks / Evergreen MTB",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes are permitted</b> on Seattle park trails (only Class 3 is banned citywide) — but Evergreen asks eMTB riders to <b>check posted signage</b> on natural-surface singletrack, where access can be limited.",
+  "blurb": "The marquee hidden gem — the only forested MTB singletrack inside Seattle city limits. The North Loop opened Oct 25, 2025, anchored by the ~1-mile one-way Trillium Loop (the longest forested MTB trail in the city) plus the South Loop's downhill-only Red Cedar and Cottonwood. Sits between three light rail stations.",
+  "conn": "Beacon Hill / Mount Baker / Columbia City stations; ~4 mi from downtown.",
+  "status": "North Loop + Trillium Loop opened Oct 25, 2025.",
+  "coord": "47.5685, -122.2865",
+  "pt": [
+   47.5685,
+   -122.2865
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/bike-trails/cheasty-greenspace-trails/"
+   ],
+   [
+    "Singletracks",
+    "https://www.singletracks.com/bike-trails/cheasty-greenspace-trails/"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5685,-122.2865"
+   ]
+  ]
+ },
+ {
+  "id": "colonnade",
+  "name": "I-5 Colonnade",
+  "area": "Eastlake, Seattle",
+  "type": "mtb",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "5",
+  "len": "~7.5 ac + pump track",
+  "surface": "Dirt + asphalt pump track",
+  "diff": "Skills · green→advanced",
+  "manager": "Seattle Parks / Evergreen MTB",
+  "ebrule": "<b>E-bikes welcome.</b> Class 1 &amp; 2 are permitted (only Class 3 is banned on Seattle park trails), and the new <b>asphalt pump track is expressly e-bike- and adaptive-MTB-friendly</b>. eMTBs are common at this skills park.",
+  "blurb": "The nation's first urban MTB skills park (2007), tucked under I-5 and rideable in any weather. Beginner Tqalu zone, intermediate/advanced Limestone Loop, dirt jumps and trials, plus a new $314K asphalt pump track (main + adaptive/beginner) opened June 24, 2025. Condition varies with upkeep — check recent reports.",
+  "conn": "Eastlake, Capitol Hill, I-5 corridor; ~25-min ride from Judkins Park.",
+  "status": "'Yup!' pump tracks opened June 24, 2025.",
+  "coord": "47.6376, -122.3245",
+  "pt": [
+   47.6376,
+   -122.3245
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/region/i5colonnade-42410/"
+   ],
+   [
+    "Evergreen",
+    "https://www.evergreenmtb.org/trails/i-5-colonnade"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6376,-122.3245"
+   ]
+  ]
+ },
+ {
+  "id": "stedward",
+  "name": "Saint Edward State Park",
+  "area": "Kenmore",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "E",
+  "img": "stedward",
+  "len": "9+ mi singletrack",
+  "surface": "Dirt singletrack",
+  "diff": "Rolling XC · skills",
+  "manager": "Washington State Parks",
+  "ebrule": "<b>Class 1 &amp; 3 pedal-assist e-bikes allowed</b> on bike-legal natural-surface singletrack (WA State Parks rule); <b>banned on hiking-only trails</b>. Discover Pass required.",
+  "blurb": "A 326-acre former seminary above Lake Washington with 9+ miles of rolling XC singletrack — small drops, bermed turns, log features, a few steep pitches. The best legal dirt e-MTB riding near the city, and it adjoins Big Finn Hill for 16+ continuous miles.",
+  "conn": "Big Finn Hill Park, O.O. Denny Park.",
+  "coord": "47.7340, -122.2660",
+  "pt": [
+   47.734,
+   -122.266
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/region/st-edward-state-park/"
+   ],
+   [
+    "WA State Parks",
+    "https://parks.wa.gov/find-parks/state-parks/saint-edward-state-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.7340,-122.2660"
+   ]
+  ]
+ },
+ {
+  "id": "bigfinn",
+  "name": "Big Finn Hill Park",
+  "area": "Kirkland / Kenmore",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "F",
+  "hidden": true,
+  "len": "~9.5 mi",
+  "surface": "Dirt singletrack",
+  "diff": "Gentle XC · some flow",
+  "manager": "King County Parks",
+  "ebrule": "<b>E-bike status varies by trail</b> on this King County backcountry park — confirm on posted signage (the county's 2024 e-bike legalization applied to paved regional trails; natural-surface rules differ).",
+  "blurb": "Quieter and gentler than neighboring Saint Edward, with numbered wooden junction markers, some jumps and flow, and 220 acres of forest. Together with Saint Edward and O.O. Denny it forms 16+ miles of connected riding — a low-key local favorite.",
+  "conn": "Saint Edward State Park, O.O. Denny Park.",
+  "coord": "47.7243, -122.2368",
+  "pt": [
+   47.7243,
+   -122.2368
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/region/big-finn-hill-park/"
+   ],
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.7243,-122.2368"
+   ]
+  ]
+ },
+ {
+  "id": "soaring",
+  "name": "Soaring Eagle Regional Park",
+  "area": "Sammamish",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "S",
+  "len": "~12 mi",
+  "surface": "Dirt singletrack",
+  "diff": "Twisty XC · night riding",
+  "manager": "King County Parks / Evergreen",
+  "ebrule": "<b>E-bike status varies by trail</b> (county natural-surface park) — check Trailforks/signage.",
+  "blurb": "About a square mile of twisty, intersecting, rooty XC trails — flat-to-rolling and not very technical, with maps posted at most junctions. A great skills-building and after-dark spot. The south entry connects to Duthie Hill ~1 mile away. Holds standing water in wet months.",
+  "conn": "Duthie Hill (~1 mi road link), East Lake Sammamish Trail (via Sammamish plateau).",
+  "coord": "47.6080, -122.0290",
+  "pt": [
+   47.608,
+   -122.029
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/route/soaring-eagle-inner-loop/"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6080,-122.0290"
+   ]
+  ]
+ },
+ {
+  "id": "duthie",
+  "name": "Duthie Hill Mountain Bike Park",
+  "area": "Issaquah plateau",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "D",
+  "len": "~6 mi (49 trails)",
+  "surface": "Purpose-built dirt",
+  "diff": "Green → expert freeride",
+  "manager": "King County Parks / Evergreen",
+  "ebrule": "<b>Per-trail on Trailforks</b> — many trails allow e-bikes, but some green climbing trails don't; check signage.",
+  "blurb": "The region's premier purpose-built flow &amp; jump park: 120 acres radiating from a central clearing, with XC (Bootcamp), flow (Ryan's Eternal Flow), serious freeride/jump lines (Voodoo Child, Semper Dirticus), and a pump track. Sits at the metro's eastern edge; car-free via the 2 Line + East Lake Sammamish Trail + Grand Ridge climb.",
+  "conn": "Grand Ridge Trail, Soaring Eagle (via Trossachs Blvd), East Lake Sammamish Trail.",
+  "coord": "47.5800, -121.9760",
+  "pt": [
+   47.58,
+   -121.976
+  ],
+  "links": [
+   [
+    "Trailforks",
+    "https://www.trailforks.com/region/duthie-hill-mountain-bike-park/"
+   ],
+   [
+    "Evergreen",
+    "https://www.evergreenmtb.org/trails/duthie-hill"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5800,-121.9760"
+   ]
+  ]
+ },
+ {
+  "id": "pioneer",
+  "name": "Pioneer Park",
+  "area": "Mercer Island",
+  "type": "mtb",
+  "eb": "restricted",
+  "geom": "point",
+  "icon": "P",
+  "hidden": true,
+  "len": "~33 short trails",
+  "surface": "Natural-surface multi-use",
+  "diff": "Easy · beginner forest",
+  "manager": "City of Mercer Island",
+  "ebrule": "<b>Natural-surface multi-use — ride walk-pace.</b> Treat as non-motorized; e-bike status follows city rules. Shared heavily with walkers and horses.",
+  "blurb": "A dense 120-acre forest on Mercer Island's south end where — unusually — all trails are open to bikes (some also to horses). Green-rated, easy, short singletrack, ideal for beginners and a mellow forest spin a short ride from the I-90 Trail. Ride gently; it's a busy walking park.",
+  "conn": "Mountains to Sound / I-90 Trail, Mercer Island Loop, Mercer Island station.",
+  "coord": "47.5407, -122.2164",
+  "pt": [
+   47.5407,
+   -122.2164
+  ],
+  "links": [
+   [
+    "Mercer Island Parks",
+    "https://www.mercerisland.gov/parksrec"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5407,-122.2164"
+   ]
+  ]
+ },
+ {
+  "id": "gasworks",
+  "name": "Gas Works Park",
+  "area": "Lake Union, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "⚙",
+  "img": "gasworks",
+  "len": "19 ac",
+  "surface": "Paved paths + lawn",
+  "diff": "Flat · iconic stop",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved park paths.",
+  "blurb": "The iconic former gasification plant turned park on the north shore of Lake Union — the hub where the Burke-Gilman and Cheshiahud loops meet, with the best downtown skyline view in the city, a giant sundial on Kite Hill, and the rusted towers. The natural mid-ride rest and photo stop.",
+  "conn": "Burke-Gilman Trail, Cheshiahud Lake Union Loop, Ship Canal Trail.",
+  "coord": "47.6456, -122.3344",
+  "pt": [
+   47.6456,
+   -122.3344
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/gas-works-park"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Gas_Works_Park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6456,-122.3344"
+   ]
+  ]
+ },
+ {
+  "id": "discovery",
+  "name": "Discovery Park",
+  "area": "Magnolia, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "▲",
+  "img": "discovery",
+  "len": "534 ac",
+  "surface": "Paved loop + dirt trails",
+  "diff": "Rolling · big park",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Bikes on designated paved routes only.</b> Class 1 &amp; 2 OK there (Class 3 banned); the natural bluff/beach trails are largely hiker-only.",
+  "blurb": "Seattle's largest park on the Magnolia bluff — paved loop riding, sea-cliff meadows, forest, and the West Point Lighthouse with sweeping Sound and Olympic views. A worthwhile ride-to destination from the Elliott Bay Trail; lock up and walk the beach trails.",
+  "conn": "Elliott Bay Trail (via Magnolia), Ship Canal Trail.",
+  "coord": "47.6580, -122.4055",
+  "pt": [
+   47.658,
+   -122.4055
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/discovery-park"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Discovery_Park_(Seattle)"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6580,-122.4055"
+   ]
+  ]
+ },
+ {
+  "id": "seward",
+  "name": "Seward Park",
+  "area": "Lake WA, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "❉",
+  "img": "seward",
+  "len": "300 ac · 2.4 mi loop",
+  "surface": "Paved shoreline loop",
+  "diff": "Flat · car-free loop",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on the paved loop (Class 3 banned).",
+  "blurb": "A 300-acre old-growth peninsula jutting into Lake Washington with a flat, car-free 2.4-mile paved shoreline loop — one of the best easy rides in the city, with eagles, Rainier views, and a forest interior. Reached along Lake Washington Blvd from the I-90 Trail.",
+  "conn": "Lake Washington Blvd (Bicycle Sunday route), Chief Sealth Trail (via Rainier Valley), I-90 Trail.",
+  "coord": "47.5505, -122.2585",
+  "pt": [
+   47.5505,
+   -122.2585
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/seward-park"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Seward_Park_(Seattle)"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5505,-122.2585"
+   ]
+  ]
+ },
+ {
+  "id": "magnuson",
+  "name": "Warren G. Magnuson Park",
+  "area": "Sand Point, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "✦",
+  "img": "magnuson",
+  "len": "350 ac",
+  "surface": "Paved paths",
+  "diff": "Flat · family",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved park paths.",
+  "blurb": "Seattle's second-largest park on a former naval air station, with paved paths, sports fields, wetlands, public art (the Fin Project's submarine fins), and Lake Washington shoreline. Sits right on the Burke-Gilman — an easy detour.",
+  "conn": "Burke-Gilman Trail, Sand Point, Lake Washington shoreline.",
+  "coord": "47.6810, -122.2490",
+  "pt": [
+   47.681,
+   -122.249
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/warren-g-magnuson-park"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Warren_G._Magnuson_Park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6810,-122.2490"
+   ]
+  ]
+ },
+ {
+  "id": "goldengardens",
+  "name": "Golden Gardens Park",
+  "area": "Ballard, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "☀",
+  "img": "goldengardens",
+  "len": "88 ac · beach",
+  "surface": "Paved + sand",
+  "diff": "Flat · end-of-ride",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on the paved waterfront path.",
+  "blurb": "The sandy Puget Sound beach at the northern terminus of the Burke-Gilman — bonfire pits, wetlands, sunsets over the Olympics, and a classic end-of-ride destination. Earn it with the descent down Golden Gardens Dr.",
+  "conn": "Burke-Gilman Trail (north terminus), Shilshole Bay.",
+  "coord": "47.6917, -122.4030",
+  "pt": [
+   47.6917,
+   -122.403
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/golden-gardens-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6917,-122.4030"
+   ]
+  ]
+ },
+ {
+  "id": "arboretum",
+  "name": "Washington Park Arboretum",
+  "area": "Madison Park, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "❀",
+  "img": "arboretum",
+  "len": "230 ac",
+  "surface": "Paved drive + trails",
+  "diff": "Flat · scenic",
+  "manager": "Seattle Parks / UW",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on Arboretum Drive / Lake WA Blvd. Walk bikes on the Foster Island boardwalks.",
+  "blurb": "230 acres of trees and gardens along Lake Washington Blvd; Arboretum Drive and the Blvd make a scenic, low-traffic ride, and the Foster Island waterfront trail links toward the UW. A centerpiece of the larger Lake Washington Loop.",
+  "conn": "Lake Washington Blvd, Lake WA Loop, UW / Montlake (via Foster Island).",
+  "coord": "47.6360, -122.2960",
+  "pt": [
+   47.636,
+   -122.296
+  ],
+  "links": [
+   [
+    "Arboretum",
+    "https://botanicgardens.uw.edu/washington-park-arboretum/"
+   ],
+   [
+    "Wikipedia",
+    "https://en.wikipedia.org/wiki/Washington_Park_Arboretum"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6360,-122.2960"
+   ]
+  ]
+ },
+ {
+  "id": "lincolnpark",
+  "name": "Lincoln Park",
+  "area": "West Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "❉",
+  "len": "135 ac",
+  "surface": "Paved shore path + trails",
+  "diff": "Flat shore · bluff trails",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on the paved shoreline path (Class 3 banned).",
+  "blurb": "A 135-acre West Seattle park on Puget Sound with a paved shoreline path, forested bluff trails, and the saltwater Colman Pool — a scenic turnaround on a West Seattle / Alki ride, with Vashon and Olympics views across the water.",
+  "conn": "Alki Trail (north, via Beach Dr), Fauntleroy ferry.",
+  "coord": "47.5300, -122.3960",
+  "pt": [
+   47.53,
+   -122.396
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/lincoln-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5300,-122.3960"
+   ]
+  ]
+ },
+ {
+  "id": "carkeek",
+  "name": "Carkeek Park",
+  "area": "NW Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "▲",
+  "len": "220 ac",
+  "surface": "Paved access + trails",
+  "diff": "Steep access · ravine",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on park roads/paths (Class 3 banned); natural trails are foot traffic.",
+  "blurb": "A wooded ravine park dropping to a Puget Sound beach with a salmon stream and a pedestrian railroad overpass to the sand. Steep access roads make it a punchy detour off the NW Seattle greenways — big sunset views as a reward.",
+  "conn": "NW Seattle greenways, Burke-Gilman (via streets).",
+  "coord": "47.7115, -122.3770",
+  "pt": [
+   47.7115,
+   -122.377
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/carkeek-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.7115,-122.3770"
+   ]
+  ]
+ },
+ {
+  "id": "volunteer",
+  "name": "Volunteer Park",
+  "area": "Capitol Hill, Seattle",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "❀",
+  "len": "48 ac",
+  "surface": "Paved paths",
+  "diff": "Flat · in-city stop",
+  "manager": "Seattle Parks",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved park paths.",
+  "blurb": "A classic Olmsted park on Capitol Hill with a brick water tower (climb it for the view), a glass conservatory, and the Asian Art Museum — an easy, leafy in-city stop linking Central District and Cheasty rides to the north end.",
+  "conn": "Capitol Hill, Interlaken Blvd (to Arboretum), Central District greenways.",
+  "coord": "47.6300, -122.3150",
+  "pt": [
+   47.63,
+   -122.315
+  ],
+  "links": [
+   [
+    "Seattle Parks",
+    "https://www.seattle.gov/parks/allparks/volunteer-park"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6300,-122.3150"
+   ]
+  ]
+ },
+ {
+  "id": "marymoor",
+  "name": "Marymoor Park",
+  "area": "Redmond",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "✦",
+  "img": "marymoor",
+  "len": "640 ac · velodrome",
+  "surface": "Paved park paths",
+  "diff": "Flat · trail hub",
+  "manager": "King County",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on park paths.",
+  "blurb": "The 640-acre hub where the Sammamish River Trail, East Lake Sammamish Trail, and Redmond Central Connector all converge — also home to a velodrome (track cycling). The natural staging point for any Eastside trail day; $1 parking, and the Marymoor Village light rail station is adjacent.",
+  "conn": "Sammamish River Trail, East Lake Sammamish Trail, Redmond Central Connector, Marymoor Village station.",
+  "coord": "47.6655, -122.1180",
+  "pt": [
+   47.6655,
+   -122.118
+  ],
+  "links": [
+   [
+    "King County",
+    "https://kingcounty.gov/en/dept/dnrp/nature-recreation/parks-recreation/king-county-parks/parks/marymoor"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.6655,-122.1180"
+   ]
+  ]
+ },
+ {
+  "id": "lutherburbank",
+  "name": "Luther Burbank Park",
+  "area": "Mercer Island",
+  "type": "park",
+  "eb": "ok",
+  "geom": "point",
+  "icon": "❉",
+  "img": "mercerisland",
+  "len": "77 ac lakeside",
+  "surface": "Paved + mixed paths",
+  "diff": "Flat · family",
+  "manager": "City of Mercer Island",
+  "ebrule": "<b>Class 1 &amp; 2 e-bikes allowed</b> on paved park paths.",
+  "blurb": "The most popular family spot on Mercer Island's north end — paved and mixed lakeside paths, a swimming beach, an off-leash area, and skyline views. An easy add-on when riding the island via the I-90 Trail.",
+  "conn": "Mountains to Sound / I-90 Trail, Mercer Island Loop, Mercer Island station.",
+  "coord": "47.5910, -122.2310",
+  "pt": [
+   47.591,
+   -122.231
+  ],
+  "links": [
+   [
+    "Mercer Island Parks",
+    "https://www.mercerisland.gov/parksrec"
+   ],
+   [
+    "Google Maps",
+    "https://maps.google.com/?q=47.5910,-122.2310"
+   ]
+  ]
+ }
+]

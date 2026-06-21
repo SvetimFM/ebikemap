@@ -1,0 +1,28 @@
+/* ============================================================================
+   Atlas design system — the canonical reference (WORK_DEFINITION §7).
+   One visual system: Fraunces (display) · Archivo (text) · JetBrains Mono (data).
+   Forest-green + gold cartographic palette. New views inherit these exactly —
+   no new fonts, no new accent colors.
+   ========================================================================== */
+:root{
+  /* Color — surfaces */
+  --bg:#0b150f; --bg-2:#0f1c14; --panel:#15231b; --panel-2:#1a2c22;
+  --line:#293c30; --line-soft:#21322a; --hair:rgba(236,228,212,.13);
+
+  /* Color — ink */
+  --cream:#ece5d6; --ink:#ece4d4; --cream-dim:#bcc5b6; --muted:#869185;
+
+  /* Color — e-bike legality */
+  --ok:#6cc06f; --restricted:#e8a33d; --banned:#d96b53;
+
+  /* Color — cartographic fills + accents */
+  --water:#11313a; --land:#13241a; --park:#21402c; --rail:#b58ce0;
+  --accent:#e8a33d; --gold:#e9a93c; --gold-2:#f2c879;
+
+  --shadow:0 18px 50px -18px rgba(0,0,0,.72);
+
+  /* Motion */
+  --ease:cubic-bezier(.19,1,.22,1);    /* ease-out-expo — entrances, camera */
+  --ease2:cubic-bezier(.16,.84,.44,1);
+  --t-micro:150ms; --t-panel:320ms; --t-camera:900ms;
+}

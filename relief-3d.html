@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="atlas-data.js"></script>
+<style>
+  html,body{margin:0;height:100%;background:#070d09;overflow:hidden;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  @keyframes r3-fade{from{opacity:0}to{opacity:1}}
+  @keyframes r3-spin{to{transform:rotate(360deg)}}
+  @keyframes r3-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .r3-scroll::-webkit-scrollbar{width:7px}
+  .r3-scroll::-webkit-scrollbar-thumb{background:#2c4133;border-radius:7px}
+</style>
+</helmet>
+<div style="position:fixed;inset:0;background:radial-gradient(130% 100% at 70% 8%,#0e2117 0%,#0a160f 50%,#060b08 100%);font-family:'Archivo',system-ui,sans-serif;color:#ece4d4;overflow:hidden;">
+
+  <div ref="{{ mount }}" style="position:absolute;inset:0;"></div>
+
+  <!-- soft vignette + grain over the canvas -->
+  <div style="position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 240px 50px rgba(4,9,6,.62),inset 0 0 70px rgba(4,9,6,.4);z-index:2;"></div>
+  <div style="position:absolute;inset:10px;pointer-events:none;border:1px solid rgba(236,228,212,.12);border-radius:2px;z-index:3;"></div>
+
+  <!-- masthead -->
+  <div style="position:absolute;left:22px;top:20px;z-index:6;max-width:340px;">
+    <div style="display:flex;align-items:center;gap:11px;">
+      <div style="width:12px;height:22px;border-radius:3px;background:#e9a93c;box-shadow:0 0 0 3px rgba(233,169,60,.16);"></div>
+      <div>
+        <div style="font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.2px;line-height:1.02;">Seattle Metro Relief</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.8px;text-transform:uppercase;color:#7d8a7e;margin-top:4px;">Three-Dimensional Trail Atlas</div>
+      </div>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#5f6d60;margin-top:11px;line-height:1.6;display:flex;align-items:center;gap:6px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:#e9a93c;display:inline-block;flex:none;animation:r3-fade 2s ease-in-out infinite alternate;"></span>
+      Relief synthesized for preview · real DEM in Phase&nbsp;3
+    </div>
+  </div>
+
+  <!-- view controls top-right -->
+  <div style="position:absolute;right:22px;top:20px;z-index:6;display:flex;gap:8px;align-items:center;">
+    <button onClick="{{ toggleRotate }}" style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:{{ rotColor }};background:rgba(10,18,12,.62);border:1px solid rgba(236,228,212,.14);border-radius:8px;padding:8px 11px;cursor:pointer;backdrop-filter:blur(4px);">↻ Orbit</button>
+    <button onClick="{{ resetView }}" style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#bcc5b6;background:rgba(10,18,12,.62);border:1px solid rgba(236,228,212,.14);border-radius:8px;padding:8px 11px;cursor:pointer;backdrop-filter:blur(4px);">⤢ Reset</button>
+  </div>
+
+  <!-- legend bottom-left -->
+  <div style="position:absolute;left:22px;bottom:22px;z-index:6;background:rgba(9,16,11,.6);border:1px solid rgba(236,228,212,.12);border-radius:11px;padding:13px 14px;backdrop-filter:blur(5px);width:188px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:#7d8a7e;margin-bottom:9px;">Elevation</div>
+    <div style="height:9px;border-radius:5px;background:linear-gradient(90deg,#123a44,#1f3a28,#3a5232,#6b6a3f,#a98b50,#cdab63);margin-bottom:5px;"></div>
+    <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:8px;color:#5f6d60;letter-spacing:.4px;"><span>SEA LEVEL</span><span>2000 FT</span></div>
+    <div style="height:1px;background:rgba(236,228,212,.1);margin:12px 0 10px;"></div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.4px;color:#bcc5b6;"><span style="width:16px;height:3px;border-radius:2px;background:#f2c879;flex:none;box-shadow:0 0 7px rgba(242,200,121,.7);"></span>Trail network</div>
+      <div style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.4px;color:#bcc5b6;"><span style="width:9px;height:9px;border-radius:50%;background:#b58ce0;flex:none;box-shadow:0 0 7px rgba(181,140,224,.7);"></span>Link station</div>
+    </div>
+  </div>
+
+  <!-- trail picker right -->
+  <div style="position:absolute;right:22px;top:74px;bottom:22px;z-index:6;width:228px;display:flex;flex-direction:column;background:rgba(9,16,11,.58);border:1px solid rgba(236,228,212,.12);border-radius:13px;backdrop-filter:blur(6px);overflow:hidden;">
+    <div style="padding:13px 15px 10px;border-bottom:1px solid rgba(236,228,212,.1);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:#7d8a7e;">Routes · {{ routeCount }}</div>
+      <div style="font-family:'Archivo';font-size:11px;color:#8a958b;margin-top:4px;line-height:1.4;">Select a trail to frame it and read its climb.</div>
+    </div>
+    <div class="r3-scroll" style="overflow-y:auto;flex:1;padding:7px;">
+      <sc-for list="{{ trails }}" as="t" hint-placeholder-count="8">
+        <div onClick="{{ t.onClick }}" style="{{ t.rowStyle }}">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+            <div style="font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;line-height:1.12;color:{{ t.nameColor }};">{{ t.name }}</div>
+            <div style="width:7px;height:7px;border-radius:50%;background:{{ t.ebColor }};flex:none;margin-top:3px;"></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#6f7d70;margin-top:5px;display:flex;gap:9px;">
+            <span>{{ t.distMi }} MI</span><span>↑ {{ t.gainFt }} FT</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- elevation profile + fly bar (only when a trail is selected) -->
+  <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:50%;transform:translateX(-50%);bottom:22px;z-index:6;width:min(640px,calc(100vw - 300px));background:rgba(9,16,11,.82);border:1px solid rgba(236,228,212,.14);border-radius:14px;backdrop-filter:blur(8px);overflow:hidden;opacity:1;box-shadow:0 18px 50px -18px rgba(0,0,0,.7);">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 15px 9px;">
+        <div style="display:flex;align-items:baseline;gap:10px;min-width:0;">
+          <div style="font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:#f2c879;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ selName }}</div>
+        </div>
+        <div style="display:flex;gap:7px;flex:none;">
+          <button onClick="{{ toggleFly }}" style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#16100a;background:#e9a93c;border:0;border-radius:7px;padding:7px 13px;cursor:pointer;font-weight:700;">{{ flyLabel }}</button>
+          <button onClick="{{ clearSel }}" style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#bcc5b6;background:rgba(236,228,212,.08);border:1px solid rgba(236,228,212,.14);border-radius:7px;padding:7px 10px;cursor:pointer;">✕</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:0;padding:0 15px 8px;font-family:'JetBrains Mono',monospace;">
+        <div style="flex:1;"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#6f7d70;">Distance</div><div style="font-size:14px;color:#ece4d4;margin-top:3px;">{{ distMi }}<span style="font-size:8.5px;color:#7d8a7e;"> MI</span></div></div>
+        <div style="flex:1;"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#6f7d70;">Climb</div><div style="font-size:14px;color:#ece4d4;margin-top:3px;">↑{{ gainFt }}<span style="font-size:8.5px;color:#7d8a7e;"> FT</span></div></div>
+        <div style="flex:1;"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#6f7d70;">Max grade</div><div style="font-size:14px;color:#ece4d4;margin-top:3px;">{{ maxGrade }}<span style="font-size:8.5px;color:#7d8a7e;"> %</span></div></div>
+        <div style="flex:1;"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#6f7d70;">High · Low</div><div style="font-size:14px;color:#ece4d4;margin-top:3px;">{{ hiFt }}<span style="font-size:8.5px;color:#7d8a7e;"> · </span>{{ loFt }}</div></div>
+      </div>
+      <div style="position:relative;padding:0 4px 4px;">
+        <svg viewBox="0 0 1000 132" preserveAspectRatio="none" style="display:block;width:100%;height:88px;">
+          <defs>
+            <linearGradient id="r3prof" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e9a93c" stop-opacity="0.5"></stop>
+              <stop offset="1" stop-color="#e9a93c" stop-opacity="0.02"></stop>
+            </linearGradient>
+          </defs>
+          <path d="{{ profArea }}" fill="url(#r3prof)"></path>
+          <path d="{{ profLine }}" fill="none" stroke="#f2c879" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+          <line x1="{{ markerX }}" y1="0" x2="{{ markerX }}" y2="132" stroke="#ece4d4" stroke-width="1" stroke-opacity="{{ markerOp }}" vector-effect="non-scaling-stroke"></line>
+        </svg>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- loading veil -->
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(120% 100% at 50% 40%,#0e2117,#070d09);">
+      <div style="width:34px;height:34px;border:2px solid rgba(233,169,60,.2);border-top-color:#e9a93c;border-radius:50%;animation:r3-spin .9s linear infinite;"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#7d8a7e;">Building relief…</div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { loading:true, trails:[], selectedId:null, selected:null, flying:false, flyT:0, autoRotate:true };
+
+  _setMount = (el)=>{ if(el) this._mountEl=el; };
+
+  componentDidMount(){
+    this._waitLibs(()=>this._init());
+  }
+  componentWillUnmount(){ this._stop=true; if(this._renderer) this._renderer.dispose && this._renderer.dispose(); window.removeEventListener('resize', this._onResize); }
+
+  _waitLibs(cb){
+    const ok = ()=> window.THREE && THREE.OrbitControls && window.ATLAS;
+    if(ok()) return cb();
+    let n=0; const id=setInterval(()=>{ if(ok()){clearInterval(id);cb();} else if(++n>120){clearInterval(id);} },50);
+  }
+
+  /* ---------- synthesized terrain field ---------- */
+  // [lng,lat,peak(m),sigma(deg)] — Seattle/Eastside relief approximated as gaussian uplands
+  HILLS = [
+    [-122.357,47.637,135,.020],[-122.366,47.629,120,.016], // Queen Anne
+    [-122.312,47.625,105,.018],[-122.318,47.611,95,.015],   // Capitol / First Hill
+    [-122.308,47.586,115,.016],[-122.305,47.566,110,.018],[-122.300,47.546,95,.018], // Beacon ridge
+    [-122.400,47.650,85,.020],  // Magnolia
+    [-122.387,47.576,150,.020],[-122.395,47.556,120,.018], // West Seattle
+    [-122.355,47.675,100,.020],[-122.345,47.700,95,.020],  // Phinney / Greenwood
+    [-122.320,47.703,100,.022], // Maple Leaf / Northgate
+    [-122.340,47.752,125,.026],[-122.360,47.770,120,.030], // Shoreline ridge
+    [-122.232,47.572,80,.016],  // Mercer Island
+    [-122.130,47.575,150,.024],[-122.155,47.560,140,.022], // Somerset / Bellevue
+    [-122.105,47.530,300,.032],[-122.085,47.520,330,.034], // Cougar Mountain
+    [-122.030,47.495,360,.038],[-121.995,47.470,400,.040], // Tiger / Squak (Issaquah Alps)
+    [-122.225,47.720,130,.024],[-122.205,47.745,120,.026], // Finn Hill / Kirkland
+    [-122.060,47.655,150,.032],[-122.040,47.630,150,.028], // Redmond Ridge / Union Hill
+    [-122.060,47.390,150,.036],[-122.030,47.360,160,.038], // Maple Valley plateau
+    [-122.165,47.485,135,.028],[-122.180,47.470,130,.026], // Renton Highlands
+    [-122.310,47.330,110,.045],[-122.430,47.290,90,.050]   // south metro / Tacoma fringe
+  ];
+  // simplified water rings [lng,lat] (concave ok). depth in meters.
+  WATER = null;
+  _buildWater(){
+    this.WATER = [
+      { d:-2.5, ring:[ // Puget Sound + Elliott Bay (east edge = coastline, then far west)
+        [-122.385,47.800],[-122.398,47.690],[-122.408,47.660],[-122.392,47.620],[-122.345,47.602],
+        [-122.360,47.585],[-122.410,47.575],[-122.420,47.560],[-122.360,47.548],[-122.345,47.540],
+        [-122.392,47.480],[-122.452,47.360],[-122.510,47.250],[-122.560,47.250],[-122.560,47.820]
+      ]},
+      { d:-2, ring:[ // Lake Washington
+        [-122.255,47.762],[-122.270,47.700],[-122.286,47.632],[-122.284,47.572],[-122.268,47.520],
+        [-122.205,47.500],[-122.198,47.555],[-122.208,47.620],[-122.205,47.682],[-122.225,47.735]
+      ]},
+      { d:-3, ring:[ // Lake Sammamish
+        [-122.088,47.612],[-122.066,47.610],[-122.058,47.555],[-122.085,47.552]
+      ]},
+      { d:-2.5, ring:[ // Lake Union
+        [-122.345,47.665],[-122.320,47.665],[-122.320,47.638],[-122.345,47.638]
+      ]},
+      { d:-2, ring:[ // Green Lake
+        [-122.343,47.684],[-122.322,47.684],[-122.322,47.668],[-122.343,47.668]
+      ]}
+    ];
+    // Mercer Island land exclusion (kept above water)
+    this.MI = [[-122.255,47.605],[-122.205,47.588],[-122.218,47.530],[-122.250,47.545]];
+  }
+  _inRing(lng,lat,ring){
+    let inside=false;
+    for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+      const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+      if(((yi>lat)!==(yj>lat)) && (lng < (xj-xi)*(lat-yi)/(yj-yi)+xi)) inside=!inside;
+    }
+    return inside;
+  }
+  heightMeters(lng,lat){
+    if(!this.WATER) this._buildWater();
+    const onMI = this._inRing(lng,lat,this.MI);
+    if(!onMI){
+      for(const w of this.WATER){ if(this._inRing(lng,lat,w.ring)) return w.d; }
+    }
+    let h=2; const cl=Math.cos(lat*Math.PI/180);
+    for(const k of this.HILLS){
+      const dx=(lng-k[0])*cl, dy=(lat-k[1]);
+      h += k[2]*Math.exp(-(dx*dx+dy*dy)/(2*k[3]*k[3]));
+    }
+    return h;
+  }
+
+  /* ---------- coordinate mapping ---------- */
+  _computeBounds(){
+    const T=window.ATLAS.TRAILS; let mnLa=1e9,mxLa=-1e9,mnLo=1e9,mxLo=-1e9;
+    const add=(la,lo)=>{mnLa=Math.min(mnLa,la);mxLa=Math.max(mxLa,la);mnLo=Math.min(mnLo,lo);mxLo=Math.max(mxLo,lo);};
+    T.forEach(t=>{ (t.path||(t.pt?[t.pt]:[])).forEach(p=>add(p[0],p[1])); });
+    window.ATLAS.STATIONS.forEach(s=>add(s[1],s[2]));
+    const padLa=(mxLa-mnLa)*0.06, padLo=(mxLo-mnLo)*0.06;
+    this.B={mnLa:mnLa-padLa,mxLa:mxLa+padLa,mnLo:mnLo-padLo,mxLo:mxLo+padLo};
+    this.cLat=(this.B.mnLa+this.B.mxLa)/2; this.cLng=(this.B.mnLo+this.B.mxLo)/2;
+    this.cl=Math.cos(this.cLat*Math.PI/180);
+    const spanX=(this.B.mxLo-this.B.mnLo)*this.cl, spanZ=(this.B.mxLa-this.B.mnLa);
+    this.K = 150/Math.max(spanX,spanZ);
+    this.worldW = spanX*this.K; this.worldH = spanZ*this.K;
+    const metersPerUnit = 111000/this.K; // approx
+    this.mToW = 11/metersPerUnit; // vertical exaggeration for cartographic drama
+  }
+  llX(lng){ return (lng-this.cLng)*this.cl*this.K; }
+  llZ(lat){ return -(lat-this.cLat)*this.K; }
+  llY(m){ return m*this.mToW; }
+
+  /* ---------- scene ---------- */
+  _init(){
+    const THREE=window.THREE; const mount=this._mountEl;
+    if(!mount){ setTimeout(()=>this._init(),60); return; }
+    this._computeBounds();
+    const scene=new THREE.Scene();
+    scene.background=new THREE.Color('#070d09');
+    scene.fog=new THREE.Fog('#0c1d14', 230, 720);
+    const cam=new THREE.PerspectiveCamera(46, mount.clientWidth/mount.clientHeight, 0.5, 1200);
+    const renderer=new THREE.WebGLRenderer({antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    renderer.setSize(mount.clientWidth, mount.clientHeight);
+    mount.appendChild(renderer.domElement);
+    this._scene=scene; this._cam=cam; this._renderer=renderer;
+
+    // lights — classic NW cartographic sun + cool sky fill
+    const sun=new THREE.DirectionalLight('#fff2da',1.35);
+    sun.position.set(-90,120,-60); scene.add(sun);
+    scene.add(new THREE.HemisphereLight('#9cc0e0','#16281c',0.72));
+    scene.add(new THREE.AmbientLight('#34543e',0.92));
+    const fill=new THREE.DirectionalLight('#7e9ec0',0.55); fill.position.set(90,60,80); scene.add(fill);
+
+    this._buildTerrain();
+    this._buildWaterPlane();
+    this._buildTrails();
+    this._buildStations();
+
+    // controls
+    const controls=new THREE.OrbitControls(cam, renderer.domElement);
+    controls.enableDamping=true; controls.dampingFactor=0.08;
+    controls.minDistance=26; controls.maxDistance=380;
+    controls.maxPolarAngle=Math.PI*0.49; controls.target.set(0,0,0);
+    controls.autoRotate=true; controls.autoRotateSpeed=0.32;
+    this._controls=controls;
+    this._home={pos:new THREE.Vector3(-this.worldW*0.5,88,this.worldH*0.88), tgt:new THREE.Vector3(this.worldW*0.08,7,-this.worldH*0.04)};
+    cam.position.copy(this._home.pos); controls.target.copy(this._home.tgt);
+
+    this._onResize=()=>{ const w=mount.clientWidth,h=mount.clientHeight; cam.aspect=w/h; cam.updateProjectionMatrix(); renderer.setSize(w,h); };
+    window.addEventListener('resize', this._onResize);
+
+    // build picker list + profiles
+    const trails = window.ATLAS.TRAILS.filter(t=>t.geom==='line').map(t=>{
+      const pr=this._profile(t.path);
+      return { id:t.id, name:t.name, eb:t.eb, distMi:pr.distMi, gainFt:pr.gainFt, _pr:pr };
+    });
+    this._trailMeta=trails;
+    this.setState({loading:false, trails:this._decorate(trails)});
+    this._animate();
+  }
+
+  EBC={ok:'#6cc06f',restricted:'#e8a33d',banned:'#d96b53'};
+
+  _hyps(m){
+    const THREE=window.THREE;
+    const stops=[[-9,'#0e2a33'],[-2,'#123a44'],[5,'#1d3a28'],[40,'#2f4a30'],[110,'#46552f'],[230,'#6b6a3f'],[420,'#a98b50'],[650,'#cdab63']];
+    let a=stops[0],b=stops[stops.length-1];
+    for(let i=0;i<stops.length-1;i++){ if(m>=stops[i][0]&&m<=stops[i+1][0]){a=stops[i];b=stops[i+1];break;} }
+    const t=Math.max(0,Math.min(1,(m-a[0])/(b[0]-a[0]||1)));
+    return new THREE.Color(a[1]).lerp(new THREE.Color(b[1]),t);
+  }
+
+  _buildTerrain(){
+    const THREE=window.THREE;
+    const NX=Math.round((this.B.mxLo-this.B.mnLo)/((this.B.mxLo-this.B.mnLo))*230);
+    const segX=230, segZ=Math.max(40,Math.round(230*this.worldH/this.worldW));
+    const geo=new THREE.PlaneGeometry(this.worldW, this.worldH, segX, segZ);
+    geo.rotateX(-Math.PI/2);
+    const pos=geo.attributes.position; const colors=[];
+    for(let i=0;i<pos.count;i++){
+      const x=pos.getX(i), z=pos.getZ(i);
+      const lng=this.cLng + x/(this.cl*this.K);
+      const lat=this.cLat - z/this.K;
+      const m=this.heightMeters(lng,lat);
+      pos.setY(i, this.llY(m));
+      const c=this._hyps(m); colors.push(c.r,c.g,c.b);
+    }
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+    geo.computeVertexNormals();
+    const mat=new THREE.MeshStandardMaterial({vertexColors:true, roughness:.96, metalness:.02, flatShading:false});
+    const mesh=new THREE.Mesh(geo,mat); this._scene.add(mesh); this._terrain=mesh;
+  }
+  _buildWaterPlane(){
+    const THREE=window.THREE;
+    const g=new THREE.PlaneGeometry(this.worldW*1.6,this.worldH*1.6); g.rotateX(-Math.PI/2);
+    const m=new THREE.MeshStandardMaterial({color:'#0f2e37',transparent:true,opacity:.9,roughness:.18,metalness:.35});
+    const p=new THREE.Mesh(g,m); p.position.y=this.llY(0)-0.15; this._scene.add(p);
+  }
+  _drapePts(path){
+    return path.map(p=>new window.THREE.Vector3(this.llX(p[1]), this.llY(this.heightMeters(p[1],p[0]))+0.9, this.llZ(p[0])));
+  }
+  _buildTrails(){
+    const THREE=window.THREE; this._trailMeshes={};
+    window.ATLAS.TRAILS.filter(t=>t.geom==='line').forEach(t=>{
+      const pts=this._drapePts(t.path);
+      const curve=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.5);
+      const seg=Math.max(40,t.path.length*12);
+      const tube=new THREE.TubeGeometry(curve,seg,0.62,8,false);
+      const tMesh=new THREE.Mesh(tube,new THREE.MeshBasicMaterial({color:'#f0b53f'}));
+      tMesh.renderOrder=3;
+      this._scene.add(tMesh);
+      // soft glow shell
+      const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,seg,1.05,8,false),new THREE.MeshBasicMaterial({color:'#e9a93c',transparent:true,opacity:.16,depthWrite:false}));
+      glow.renderOrder=2; this._scene.add(glow);
+      this._trailMeshes[t.id]={tube:tMesh,glow,curve,pts};
+    });
+  }
+  _buildStations(){
+    const THREE=window.THREE;
+    window.ATLAS.STATIONS.forEach(s=>{
+      const y=this.llY(this.heightMeters(s[2],s[1]))+1.1;
+      const g=new THREE.SphereGeometry(0.7,14,14);
+      const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:'#b58ce0'}));
+      m.position.set(this.llX(s[2]),y,this.llZ(s[1])); this._scene.add(m);
+      const halo=new THREE.Mesh(new THREE.SphereGeometry(1.15,14,14),new THREE.MeshBasicMaterial({color:'#b58ce0',transparent:true,opacity:.18}));
+      halo.position.copy(m.position); this._scene.add(halo);
+    });
+    // HOME is private and never ships (null in public data); skip gracefully.
+    const H=window.ATLAS.HOME;
+    if(H){
+      const hy=this.llY(this.heightMeters(H[1],H[0]))+1.4;
+      const cone=new THREE.Mesh(new THREE.ConeGeometry(1.2,2.6,16),new THREE.MeshBasicMaterial({color:'#e9a93c'}));
+      cone.position.set(this.llX(H[1]),hy,this.llZ(H[0])); this._scene.add(cone); this._homeMesh=cone;
+    }
+  }
+
+  /* ---------- elevation profile ---------- */
+  _hav(a,b){ const R=20925524.9; const r=Math.PI/180; const dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r,la1=a[0]*r,la2=b[0]*r; const x=Math.sin(dLa/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLo/2)**2; return R*2*Math.asin(Math.sqrt(x)); } // feet
+  _profile(path){
+    // cumulative dist
+    const cum=[0]; for(let i=1;i<path.length;i++) cum.push(cum[i-1]+this._hav(path[i-1],path[i]));
+    const totalFt=cum[cum.length-1]; const N=160; const samp=[];
+    for(let k=0;k<N;k++){
+      const d=totalFt*k/(N-1); let i=1; while(i<cum.length-1 && cum[i]<d) i++;
+      const seg=cum[i]-cum[i-1]||1; const f=(d-cum[i-1])/seg;
+      const la=path[i-1][0]+(path[i][0]-path[i-1][0])*f, lo=path[i-1][1]+(path[i][1]-path[i-1][1])*f;
+      const elevFt=this.heightMeters(lo,la)*3.28084;
+      samp.push({d,elev:elevFt});
+    }
+    // smooth the synthesized profile (7-pt window) — kills water-edge step spikes
+    const sm=samp.map((s,i)=>{let a=0,n=0;for(let k=-3;k<=3;k++){const j=i+k;if(j>=0&&j<samp.length){a+=samp[j].elev;n++;}}return a/n;});
+    let gain=0,maxGrade=0,hi=-1e9,lo=1e9;
+    for(let i=1;i<sm.length;i++){ const de=sm[i]-sm[i-1]; if(de>0) gain+=de; }
+    for(let i=5;i<sm.length;i++){ const de=sm[i]-sm[i-5], dd=samp[i].d-samp[i-5].d||1; maxGrade=Math.max(maxGrade,Math.abs(de/dd)*100); }
+    sm.forEach(e=>{hi=Math.max(hi,e);lo=Math.min(lo,e);});
+    // svg paths in 1000x132 box, y inverted, padded
+    const W=1000,Hh=132,pad=10; const eMin=Math.min(lo,0),eMax=Math.max(hi,eMin+40);
+    const X=d=>(d/(totalFt||1))*W; const Y=e=>Hh-pad-((e-eMin)/(eMax-eMin))*(Hh-pad*2);
+    let line='';
+    sm.forEach((e,i)=>{ const x=X(samp[i].d).toFixed(1),y=Y(e).toFixed(1); line+=(i?'L':'M')+x+' '+y+' '; });
+    const area='M0 '+Hh+' '+sm.map((e,i)=>'L'+X(samp[i].d).toFixed(1)+' '+Y(e).toFixed(1)).join(' ')+' L'+W+' '+Hh+' Z';
+    return { samp, totalFt, distMi:(totalFt/5280).toFixed(1), gainFt:Math.round(gain), maxGrade:maxGrade.toFixed(1),
+             hiFt:Math.round(hi), loFt:Math.round(Math.max(lo,0)), profLine:line.trim(), profArea:area, W };
+  }
+
+  /* ---------- selection / framing ---------- */
+  _decorate(list){
+    const sel=this.state.selectedId;
+    return list.map(t=>{
+      const active=t.id===sel;
+      return { ...t,
+        onClick:()=>this.selectTrail(t.id),
+        ebColor:this.EBC[t.eb]||'#6cc06f',
+        nameColor: active?'#f2c879':'#dfe6da',
+        rowStyle:`padding:9px 10px;margin:3px 1px;border-radius:9px;cursor:pointer;border:1px solid ${active?'rgba(233,169,60,.55)':'transparent'};background:${active?'rgba(233,169,60,.08)':'rgba(255,255,255,.012)'};transition:.18s;`
+      };
+    });
+  }
+  selectTrail(id){
+    const m=this._trailMeshes[id]; if(!m) return;
+    // reset previous highlight
+    Object.values(this._trailMeshes).forEach(o=>{o.tube.material.color.set('#f0b53f');o.glow.material.opacity=.16;});
+    m.tube.material.color.set('#fff3d6'); m.glow.material.opacity=.4; 
+    const meta=this._trailMeta.find(t=>t.id===id);
+    this.setState({selectedId:id, selected:meta, flying:false, flyT:0});
+    this.setState(s=>({trails:this._decorate(s.trails)}));
+    this._frame(m.pts);
+  }
+  clearSel=()=>{
+    Object.values(this._trailMeshes||{}).forEach(o=>{o.tube.material.color.set('#f0b53f');o.glow.material.opacity=.16;});
+    this.setState({selectedId:null,selected:null,flying:false});
+    this.setState(s=>({trails:this._decorate(s.trails)}));
+    this._controls.autoRotate=this.state.autoRotate;
+  }
+  _frame(pts){
+    const THREE=window.THREE; const box=new THREE.Box3().setFromPoints(pts);
+    const c=box.getCenter(new THREE.Vector3()); const size=box.getSize(new THREE.Vector3());
+    const r=Math.max(size.x,size.z)*0.5+14; const dist=Math.max(38,r*2.0);
+    this._controls.autoRotate=false;
+    this._flyTo(new THREE.Vector3(c.x+dist*0.55,Math.max(40,r*1.1+24),c.z+dist*0.8), new THREE.Vector3(c.x,c.y+2,c.z), 900);
+  }
+  _flyTo(pos,tgt,dur){
+    const THREE=window.THREE; const c=this._cam, ct=this._controls;
+    const p0=c.position.clone(), t0=ct.target.clone(); const t=performance.now();
+    this._camAnim={p0,t0,p1:pos,t1:tgt,t,dur};
+  }
+
+  /* ---------- fly-the-trail ---------- */
+  toggleFly=()=>{
+    if(!this.state.selectedId) return;
+    if(this.state.flying){ this.setState({flying:false}); this._controls.autoRotate=false; return; }
+    this._camAnim=null; this.setState({flying:true, flyT:0}); this._flyStart=performance.now();
+    const id=this.state.selectedId; const pr=this._trailMeta.find(t=>t.id===id)._pr;
+    this._flyDur=Math.max(7000, pr.totalFt/5280*2600); // ~2.6s per mile, min 7s
+  }
+  _updateFly(now){
+    const m=this._trailMeshes[this.state.selectedId]; if(!m){this.setState({flying:false});return;}
+    let u=(now-this._flyStart)/this._flyDur;
+    if(u>=1){ u=1; }
+    const eased=u<0.12?u/0.12*0.5*0.12+0:u; // gentle; keep simple
+    const t=Math.min(0.999,u);
+    const pt=m.curve.getPointAt(t); const ahead=m.curve.getPointAt(Math.min(0.9999,t+0.012));
+    const tan=ahead.clone().sub(pt).normalize();
+    const up=new window.THREE.Vector3(0,1,0);
+    const side=new window.THREE.Vector3().crossVectors(tan,up).normalize();
+    const camPos=pt.clone().addScaledVector(tan,-7).addScaledVector(up,5.4).addScaledVector(side,0.6);
+    this._cam.position.copy(camPos);
+    this._controls.target.copy(pt.clone().addScaledVector(tan,6).addScaledVector(up,1.2));
+    if(this.state.flyT!==t) this.setState({flyT:t});
+    if(u>=1){ this.setState({flying:false}); }
+  }
+
+  toggleRotate=()=>{
+    const v=!this.state.autoRotate; this.setState({autoRotate:v});
+    if(!this.state.flying && !this.state.selectedId) this._controls.autoRotate=v;
+    else this._controls.autoRotate=v && !this.state.selectedId;
+  }
+  resetView=()=>{
+    this.clearSel();
+    this._flyTo(this._home.pos.clone(), this._home.tgt.clone(), 1000);
+    this._controls.autoRotate=this.state.autoRotate;
+  }
+
+  _animate=()=>{
+    if(this._stop) return;
+    requestAnimationFrame(this._animate);
+    const now=performance.now();
+    if(this.state.flying){ this._updateFly(now); }
+    else if(this._camAnim){
+      const a=this._camAnim; let k=Math.min(1,(now-a.t)/a.dur); const e=1-Math.pow(1-k,3);
+      this._cam.position.lerpVectors(a.p0,a.p1,e); this._controls.target.lerpVectors(a.t0,a.t1,e);
+      if(k>=1) this._camAnim=null;
+    }
+    if(this._homeMesh) this._homeMesh.rotation.y+=0.02;
+    this._controls.update();
+    this._renderer.render(this._scene,this._cam);
+  }
+
+  renderVals(){
+    const s=this.state; const sel=s.selected;
+    const pr=sel?sel._pr:null;
+    const markerX = (s.flying||s.flyT>0)&&pr ? (s.flyT*pr.W) : 0;
+    return {
+      loading:s.loading,
+      trails:s.trails,
+      routeCount:(s.trails||[]).length,
+      hasSel:!!sel,
+      selName:sel?sel.name:'',
+      distMi:pr?pr.distMi:'0',
+      gainFt:pr?pr.gainFt:0,
+      maxGrade:pr?pr.maxGrade:'0',
+      hiFt:pr?pr.hiFt:0, loFt:pr?pr.loFt:0,
+      profLine:pr?pr.profLine:'', profArea:pr?pr.profArea:'',
+      markerX, markerOp:(s.flying||s.flyT>0)?0.9:0,
+      flying:s.flying, flyLabel:s.flying?'■ Stop':'▶ Fly trail',
+      autoRotate:s.autoRotate, rotColor:s.autoRotate?'#e9a93c':'#bcc5b6',
+      toggleFly:this.toggleFly, clearSel:this.clearSel,
+      toggleRotate:this.toggleRotate, resetView:this.resetView,
+      mount:this._setMount
+    };
+  }
+}
+</script>
+</body>
+</html>
