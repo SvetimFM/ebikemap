@@ -131,9 +131,13 @@ window.ATLAS_READY.then(function (A) {
   }
   function buildMapButtons(tr) {
     var p = trailLatLng(tr); if (!p) return '';
-    var lat = p[0], lng = p[1], q = encodeURIComponent(tr.name || 'Trailhead'), cq = encodeURIComponent(lat + ',' + lng);
-    var apple = 'https://maps.apple.com/?q=' + q + '&ll=' + lat + ',' + lng;
-    var goog = 'https://www.google.com/maps/search/?api=1&query=' + cq;
+    var lat = p[0], lng = p[1];
+    var name = (tr.name || 'Trailhead').replace(/\s*\/\s*/g, ' ').trim(); // normalise " / " so it isn't %2F in the search path
+    var q = encodeURIComponent(name), cq = encodeURIComponent(lat + ',' + lng);
+    // Apple + Google look up the trail BY NAME, biased to the trailhead, so they open the
+    // actual place (not a bare coordinate pin). Directions route to the precise trailhead.
+    var apple = 'https://maps.apple.com/?q=' + q + '&sll=' + lat + ',' + lng; // sll = search BY NAME near the trailhead (ll would make q just a pin label)
+    var goog = 'https://www.google.com/maps/search/' + q + '/@' + lat + ',' + lng + ',15z';
     var bike = 'https://www.google.com/maps/dir/?api=1&destination=' + cq + '&travelmode=bicycling';
     function a(href, ico, lbl, cls) { return '<a class="map-btn ' + cls + '" href="' + href + '" target="_blank" rel="noopener noreferrer">' + ico + '<span>' + lbl + '</span></a>'; }
     return '<div class="map-btns">' + a(apple, PINICO, 'Apple Maps', 'apl') + a(goog, PINICO, 'Google Maps', 'ggl') + a(bike, BIKEICO, 'Bike directions', 'bike') + '</div>';
