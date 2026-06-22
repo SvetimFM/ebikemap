@@ -211,10 +211,19 @@ window.ATLAS_READY.then(function (A) {
 
   /* ---------- map-load: markers, interactions, controls ---------- */
   map.on('load', function () {
-    // station markers (the .pin element IS the marker — MapLibre owns its transform)
+    // station markers (the .pin element IS the marker — MapLibre owns its transform).
+    // Each is hover- and tap-interactive: a styled popup with the station name + note.
+    var stnPop = new maplibregl.Popup({ closeButton: false, closeOnClick: true, className: 'trail-pop stn-pop', offset: 12 });
     STATIONS.forEach(function (s) {
-      var el = mk('<div class="body"></div>', 'pin stn'); el.title = '🚆 ' + s[0] + ' — ' + s[3];
-      stnMarkers.push(new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([s[2], s[1]]).addTo(map));
+      var el = mk('<div class="body"></div>', 'pin stn'); el.style.cursor = 'pointer';
+      var html = '<b>🚆 ' + s[0] + '</b>' + (s[3] ? '<div class="sub">' + s[3] + '</div>' : '');
+      function show() { stnPop.setLngLat([s[2], s[1]]).setHTML(html).addTo(map); }
+      el.addEventListener('mouseenter', show);
+      el.addEventListener('mouseleave', function () { stnPop.remove(); });
+      el.addEventListener('click', function (ev) { ev.stopPropagation(); show(); }); // tap (touch) reveals it
+      var m = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([s[2], s[1]]).addTo(map);
+      el.setAttribute('aria-label', 'Link station: ' + s[0] + (s[3] ? ' — ' + s[3] : '')); // after addTo so it isn't overwritten by MapLibre's default
+      stnMarkers.push(m);
     });
     // point trails (parks/mtb) markers
     TRAILS.filter(function (t) { return t.geom !== 'line'; }).forEach(function (tr) {

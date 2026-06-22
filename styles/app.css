@@ -50,8 +50,15 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .about-credit a{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--cream-dim);text-align:right;}
 .about-foot{font-size:11px;line-height:1.55;color:var(--muted);margin-top:14px;}
 .body{flex:1;display:flex;min-height:0;position:relative;}
-#sidebar{width:392px;flex:none;background:var(--bg-2);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;position:relative;z-index:1000;}
+#sidebar{width:392px;flex:none;background:var(--bg-2);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;position:relative;z-index:1000;transition:margin-left .32s var(--ease2);}
+#sidebar.collapsed{margin-left:-393px;}/* desktop: slide the trail list off-screen; #mapwrap (flex:1) fills + the map auto-resizes via its ResizeObserver */
 .side-head{padding:10px 16px 7px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.side-collapse{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;background:var(--panel);color:var(--cream-dim);border:1px solid var(--line);border-radius:7px;padding:6px 9px;cursor:pointer;flex:none;touch-action:manipulation;}
+.side-collapse:hover{color:var(--cream);border-color:var(--accent);}
+/* reveal tab — floats above the map AND the 3D iframe (z>iframe) when the list is hidden */
+.side-reveal{position:absolute;left:0;top:78px;z-index:950;display:none;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--cream);background:rgba(15,28,20,.94);border:1px solid var(--line);border-left:0;border-radius:0 10px 10px 0;padding:10px 12px 10px 10px;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 4px 16px rgba(0,0,0,.45);touch-action:manipulation;}
+.side-reveal:hover{border-color:var(--accent);color:#fff;}
+.side-reveal.show{display:flex;}
 .side-head .count{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
 .side-head .home-chip{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:5px;}
 .list{overflow-y:auto;padding:6px 10px 90px;flex:1;scrollbar-width:thin;scrollbar-color:var(--line) transparent;}
@@ -108,8 +115,11 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .maplibregl-ctrl-attrib-button{filter:invert(.8);}
 .maplibregl-ctrl-top-left{top:max(0px,env(safe-area-inset-top));left:max(0px,env(safe-area-inset-left));}
 .maplibregl-ctrl-bottom-right{bottom:max(0px,env(safe-area-inset-bottom));right:max(0px,env(safe-area-inset-right));}
-.maplibregl-popup.trail-pop .maplibregl-popup-content{background:#0b150f;border:1px solid var(--line);color:var(--cream);font-family:'Archivo',sans-serif;font-size:12px;padding:6px 10px;border-radius:7px;box-shadow:0 4px 14px rgba(0,0,0,.5);}
+.maplibregl-popup.trail-pop{pointer-events:none;}/* never intercept pointer — so it can't block station/marker hover or tap */
+.maplibregl-popup.trail-pop .maplibregl-popup-content{background:#0b150f;border:1px solid var(--line);color:var(--cream);font-family:'Archivo',sans-serif;font-size:12px;padding:6px 10px;border-radius:7px;box-shadow:0 4px 14px rgba(0,0,0,.5);max-width:220px;}
 .maplibregl-popup.trail-pop .maplibregl-popup-tip{border-top-color:var(--line);border-bottom-color:var(--line);}
+.maplibregl-popup.stn-pop .maplibregl-popup-content{border-color:var(--rail);}
+.trail-pop .sub{color:var(--cream-dim);font-size:10.5px;line-height:1.35;margin-top:2px;}
 .maplibregl-canvas{outline:none;}
 .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(236,229,214,.42);white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.85);transform:translate(-50%,-50%);font-weight:500;pointer-events:none;}
 .lbl.water{font-family:'Fraunces',serif;font-style:italic;font-size:12.5px;letter-spacing:1.5px;text-transform:none;color:rgba(120,185,205,.6);}
@@ -123,7 +133,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .pin.sel .body{outline:3px solid var(--cream);outline-offset:1px;}
 .pin.park .body{border-radius:50%;background:#4fae6a;}
 .pin.park .ic{transform:none;font-size:12px;}
-.pin.stn .body{width:11px;height:11px;border-radius:3px;background:var(--rail);border-width:2px;}
+.pin.stn{cursor:pointer;}
+.pin.stn .body{width:11px;height:11px;border-radius:3px;background:var(--rail);border-width:2px;position:relative;}
+.pin.stn .body::after{content:"";position:absolute;inset:-12px;border-radius:50%;}/* invisible hit-slop → easy hover/tap (esp. touch) */
 .home-pin{transform:translate(-50%,-50%);}
 .home-pin .ring{width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(232,163,61,.22),0 0 0 11px rgba(232,163,61,.1);position:relative;}
 .home-pin .ring::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite;}
@@ -336,6 +348,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
   /* sidebar bottom sheet — dynamic-vh height + home-indicator inset on the collapsed peek */
   #sidebar{position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:50vh;height:calc(50dvh + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;transform:translateY(calc(100% - 58px - env(safe-area-inset-bottom)));transition:transform .32s cubic-bezier(.4,0,.2,1);z-index:1000;box-shadow:0 -14px 40px -10px rgba(0,0,0,.6);}
   #sidebar.expanded{transform:translateY(0);}
+  #sidebar.collapsed{margin-left:0;transform:translateY(125%);}/* hide the sheet fully (3D view) */
+  .side-collapse{display:none;}
+  .side-reveal{display:none!important;}
   .sheet-handle{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 0 4px;cursor:pointer;min-height:52px;}
   .sheet-handle .bar{width:42px;height:4px;border-radius:3px;background:var(--line);}
   .sheet-handle .lbl2{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}

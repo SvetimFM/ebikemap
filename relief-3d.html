@@ -367,7 +367,7 @@ class Component extends DCLogic {
   _buildTerrain(){
     const THREE=window.THREE;
     const NX=Math.round((this.B.mxLo-this.B.mnLo)/((this.B.mxLo-this.B.mnLo))*230);
-    const segX=this._isMobile?160:230, segZ=Math.max(this._isMobile?28:40,Math.round(segX*this.worldH/this.worldW));
+    const segX=this._isMobile?220:340, segZ=Math.max(this._isMobile?40:60,Math.round(segX*this.worldH/this.worldW));
     const geo=new THREE.PlaneGeometry(this.worldW, this.worldH, segX, segZ);
     geo.rotateX(-Math.PI/2);
     const pos=geo.attributes.position; const colors=[]; const uvs=[];
@@ -479,12 +479,12 @@ class Component extends DCLogic {
       const pts=this._drapePts(t.path);
       const curve=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.5);
       const seg=Math.max(40,t.path.length*12);
-      const tube=new THREE.TubeGeometry(curve,seg,0.24,8,false);
-      const tMesh=new THREE.Mesh(tube,new THREE.MeshBasicMaterial({color:'#f0b53f'}));
+      const tube=new THREE.TubeGeometry(curve,seg,0.15,8,false);
+      const tMesh=new THREE.Mesh(tube,new THREE.MeshBasicMaterial({color:'#f5be4d'}));
       tMesh.renderOrder=3;
       this._reliefGroup.add(tMesh);
       // soft glow shell
-      const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,seg,0.4,8,false),new THREE.MeshBasicMaterial({color:'#e9a93c',transparent:true,opacity:.18,depthWrite:false}));
+      const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,seg,0.27,8,false),new THREE.MeshBasicMaterial({color:'#e9a93c',transparent:true,opacity:.2,depthWrite:false}));
       glow.renderOrder=2; this._reliefGroup.add(glow);
       // fat transparent tube = generous click/hover target (stays raycastable;
       // colorWrite:false draws nothing — Raycaster skips visible:false meshes)

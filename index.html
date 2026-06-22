@@ -54,8 +54,8 @@
     <div class="header-tools">
       <span class="ctl-label">View</span>
       <div class="seg viewseg" id="viewseg">
-        <button data-view="flat" class="on">Flat map</button>
-        <button data-view="3d">3D relief</button>
+        <button data-view="3d" class="on">3D relief</button>
+        <button data-view="flat">Flat map</button>
         <button data-view="net">Network</button>
       </div>
       <span class="ctl-label">Type</span>
@@ -79,10 +79,12 @@
       <div class="sheet-handle" id="sheetHandle"><div class="bar"></div><div class="lbl2" id="sheetLbl">▲ Trail list</div></div>
       <div class="side-head">
         <span class="count" id="resultCount"></span>
+        <button class="side-collapse" id="sideCollapse" title="Hide trail list" aria-label="Hide trail list">‹ Hide list</button>
       </div>
       <div class="list" id="list" role="list"></div>
     </aside>
     <div id="mapwrap">
+      <button class="side-reveal" id="sideReveal" title="Show trail list" aria-label="Show trail list">›&nbsp;Trail list</button>
       <div id="map" role="application" aria-label="Interactive map of Seattle metro bike trails"></div>
       <iframe id="view3d" title="Seattle Metro Relief — 3D trail atlas" loading="lazy"></iframe>
       <div id="viewnet"><div id="netmap"></div>

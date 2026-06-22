@@ -5,9 +5,9 @@
   -121.94346,
   47.87009
  ],
- "nx": 480,
- "ny": 480,
- "z": 12,
+ "nx": 768,
+ "ny": 768,
+ "z": 13,
  "encoding": "terrarium",
  "source": "AWS Open Terrain Tiles (Mapzen/Terrarium, public domain)",
  "syncedAt": "2026-06-21"
