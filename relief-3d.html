@@ -90,8 +90,8 @@
   <!-- trail picker right -->
   <div class="r3-picker" style="position:absolute;right:22px;top:74px;bottom:22px;z-index:6;width:228px;display:flex;flex-direction:column;background:rgba(9,16,11,.58);border:1px solid rgba(236,228,212,.12);border-radius:13px;backdrop-filter:blur(6px);overflow:hidden;">
     <div style="padding:13px 15px 10px;border-bottom:1px solid rgba(236,228,212,.1);">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:#7d8a7e;">Routes · {{ routeCount }}</div>
-      <div style="font-family:'Archivo';font-size:11px;color:#8a958b;margin-top:4px;line-height:1.4;">Select a trail to frame it and read its climb.</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:#7d8a7e;">Routes &amp; spots · {{ routeCount }}</div>
+      <div style="font-family:'Archivo';font-size:11px;color:#8a958b;margin-top:4px;line-height:1.4;">Tap a route to frame it &amp; read its climb, or a park/spot to locate it.</div>
     </div>
     <div class="r3-scroll" style="overflow-y:auto;flex:1;padding:7px;">
       <sc-for list="{{ trails }}" as="t" hint-placeholder-count="8">
@@ -100,9 +100,7 @@
             <div style="font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;line-height:1.12;color:{{ t.nameColor }};">{{ t.name }}</div>
             <div style="width:7px;height:7px;border-radius:50%;background:{{ t.ebColor }};flex:none;margin-top:3px;"></div>
           </div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#6f7d70;margin-top:5px;display:flex;gap:9px;">
-            <span>{{ t.distMi }} MI</span><span>↑ {{ t.gainFt }} FT</span>
-          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.4px;color:#6f7d70;margin-top:5px;">{{ t.meta }}</div>
         </div>
       </sc-for>
     </div>
@@ -324,6 +322,7 @@ class Component extends DCLogic {
     this._buildWaterPlane();
     this._buildTrails();
     this._buildStations();
+    this._buildPoints();
     this._reliefGroup.scale.y=this._exag/this._exagBuild;
 
     // controls
@@ -342,14 +341,19 @@ class Component extends DCLogic {
     window.addEventListener('resize', this._onResize);
     this._initPicking(renderer.domElement);
 
-    // build picker list + profiles
-    const trails = window.ATLAS.TRAILS.filter(t=>t.geom==='line').map(t=>{
+    // build picker list + profiles — includes BOTH line routes and point features
+    // (parks / dirt spots) so the 3D picker matches the flat-map list (no count mismatch).
+    const TLBL={park:'Park',mtb:'Dirt / MTB',gravel:'Gravel',paved:'Paved'};
+    const lineTrails = window.ATLAS.TRAILS.filter(t=>t.geom==='line').map(t=>{
       // Prefer the real cached DEM profile; fall back to the synthesized field.
       const pr = t.elevation ? this._profileFromBaked(t.elevation) : this._profile(t.path);
-      return { id:t.id, name:t.name, eb:t.eb, distMi:pr.distMi, gainFt:pr.gainFt, real:!!t.elevation, _pr:pr };
+      return { id:t.id, name:t.name, eb:t.eb, type:t.type, isPoint:false, distMi:pr.distMi, gainFt:pr.gainFt, real:!!t.elevation, _pr:pr, meta:pr.distMi+' MI · ↑'+pr.gainFt+' FT' };
     });
-    this._trailMeta=trails;
-    this.setState({loading:false, trails:this._decorate(trails)});
+    const pointTrails = window.ATLAS.TRAILS.filter(t=>t.geom!=='line').map(t=>{
+      return { id:t.id, name:t.name, eb:t.eb, type:t.type, isPoint:true, _pr:null, meta:(TLBL[t.type]||'Spot')+(t.len?' · '+t.len:'') };
+    });
+    this._trailMeta=lineTrails.concat(pointTrails);
+    this.setState({loading:false, trails:this._decorate(this._trailMeta)});
     this._animate();
   }
 
@@ -420,7 +424,7 @@ class Component extends DCLogic {
     dom.addEventListener('pointerup',(e)=>{
       if(Math.abs(e.clientX-dx)>6||Math.abs(e.clientY-dy)>6||performance.now()-dt>500) return; // drag, not a click
       setNdc(e); const u=pick();
-      if(u&&u.kind==='trail') this.selectTrail(u.id);
+      if(u&&(u.kind==='trail'||u.kind==='point')) this.selectTrail(u.id);
       else if(u&&u.kind==='station'){ this._showTip(e.clientX,e.clientY,'🚆 '+u.name+' — '+u.note); clearTimeout(this._tipTO); this._tipTO=setTimeout(()=>this._hideTip(),2600); } // tap-to-show on touch
       else if(e.pointerType==='touch') this._hideTip();
     });
@@ -446,7 +450,7 @@ class Component extends DCLogic {
     this._rescaleStations(S);
     this.setState({exag:v});
   };
-  _rescaleStations(S){ (this._stationMeshes||[]).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); }
+  _rescaleStations(S){ (this._stationMeshes||[]).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); Object.values(this._pointMeshes||{}).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); }
   vScale(){ return this._exag/this._exagBuild; }
   /* ---------- visible sun (NW cartographic light) ---------- */
   _buildSun(){
@@ -516,6 +520,24 @@ class Component extends DCLogic {
       cone.position.set(this.llX(H[1]),hy,this.llZ(H[0])); this._scene.add(cone); this._homeMesh=cone;
     }
   }
+  // point features (parks / dirt & MTB spots) — diamond markers draped on the terrain,
+  // in world space (stay round under exaggeration), pickable + selectable like stations.
+  _buildPoints(){
+    const THREE=window.THREE; this._pointMeshes={};
+    const S=this._exag/this._exagBuild, OFF=0.6;
+    window.ATLAS.TRAILS.filter(t=>t.geom!=='line'&&t.pt).forEach(t=>{
+      const lng=t.pt[1], lat=t.pt[0];
+      const baseY=this.llY(this.heightMeters(lng,lat));
+      const x=this.llX(lng), z=this.llZ(lat);
+      const col=t.type==='park'?'#4fae6a':(this.EBC[t.eb]||'#6cc06f');
+      const m=new THREE.Mesh(new THREE.OctahedronGeometry(0.52,0),new THREE.MeshBasicMaterial({color:col}));
+      m.position.set(x,baseY*S+OFF,z); m.userData={kind:'point',id:t.id,name:t.name};
+      this._scene.add(m); if(this._pickables) this._pickables.push(m);
+      const halo=new THREE.Mesh(new THREE.OctahedronGeometry(0.82,0),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.2}));
+      halo.position.copy(m.position); this._scene.add(halo);
+      this._pointMeshes[t.id]={m,halo,baseY,off:OFF};
+    });
+  }
 
   /* ---------- elevation profile ---------- */
   _hav(a,b){ const R=20925524.9; const r=Math.PI/180; const dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r,la1=a[0]*r,la2=b[0]*r; const x=Math.sin(dLa/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLo/2)**2; return R*2*Math.asin(Math.sqrt(x)); } // feet
@@ -574,14 +596,23 @@ class Component extends DCLogic {
     });
   }
   selectTrail(id){
-    const m=this._trailMeshes[id]; if(!m) return;
-    // reset previous highlight
+    const meta=this._trailMeta.find(t=>t.id===id); if(!meta) return;
+    // reset previous line highlight
     Object.values(this._trailMeshes).forEach(o=>{o.tube.material.color.set('#f0b53f');o.glow.material.opacity=.16;});
-    m.tube.material.color.set('#fff3d6'); m.glow.material.opacity=.4; 
-    const meta=this._trailMeta.find(t=>t.id===id);
     this.setState({selectedId:id, selected:meta, flying:false, flyT:0});
     this.setState(s=>({trails:this._decorate(s.trails)}));
-    this._frame(m.pts);
+    if(meta.isPoint){
+      const pm=this._pointMeshes[id]; if(pm) this._framePoint(pm.m.position); // park/spot: fly to locate it
+    } else {
+      const m=this._trailMeshes[id]; if(!m) return;
+      m.tube.material.color.set('#fff3d6'); m.glow.material.opacity=.4;
+      this._frame(m.pts);
+    }
+  }
+  _framePoint(pos){
+    const THREE=window.THREE; this._controls.autoRotate=false;
+    const d=48;
+    this._flyTo(new THREE.Vector3(pos.x+d*0.5, Math.max(42,pos.y+36), pos.z+d*0.8), pos.clone(), 900);
   }
   clearSel=()=>{
     Object.values(this._trailMeshes||{}).forEach(o=>{o.tube.material.color.set('#f0b53f');o.glow.material.opacity=.16;});
@@ -664,7 +695,7 @@ class Component extends DCLogic {
       loading:s.loading,
       trails:s.trails,
       routeCount:(s.trails||[]).length,
-      hasSel:!!sel,
+      hasSel:!!(sel&&sel._pr), // profile bar only for line routes (points have no elevation profile)
       selName:sel?sel.name:'',
       distMi:pr?pr.distMi:'0',
       gainFt:pr?pr.gainFt:0,

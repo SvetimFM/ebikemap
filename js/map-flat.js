@@ -65,14 +65,15 @@ window.ATLAS_READY.then(function (A) {
   map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'MapLibre · © OpenStreetMap · Natural Earth' }), 'bottom-right');
 
   var stnMarkers = [], parkMarkers = [], labelMarkers = [];
+  // Place labels — coordinates audited against real downtown/centre positions (2026-06-22).
   var LABELS = [
-    ['water', 'PUGET SOUND', 47.640, -122.430], ['water', 'ELLIOTT BAY', 47.598, -122.372], ['water', 'LAKE WASHINGTON', 47.630, -122.255],
-    ['water', 'LAKE UNION', 47.637, -122.333], ['water', 'LAKE SAMMAMISH', 47.585, -122.088], ['water', 'GREEN LK', 47.681, -122.329],
-    ['city', 'SEATTLE', 47.607, -122.335], ['city', 'BALLARD', 47.668, -122.384], ['city', 'BEACON HILL', 47.578, -122.310],
-    ['city', 'WEST SEATTLE', 47.576, -122.388], ['city', 'MERCER ISLAND', 47.567, -122.232], ['city', 'BELLEVUE', 47.610, -122.165],
-    ['city', 'KIRKLAND', 47.685, -122.209], ['city', 'REDMOND', 47.673, -122.124], ['city', 'RENTON', 47.483, -122.197],
-    ['city', 'KENT', 47.382, -122.215], ['city', 'TUKWILA', 47.462, -122.290], ['city', 'BOTHELL', 47.760, -122.205],
-    ['city', 'SHORELINE', 47.756, -122.341], ['city', 'SAMMAMISH', 47.616, -122.040], ['city', 'ISSAQUAH', 47.530, -122.040],
+    ['water', 'PUGET SOUND', 47.635, -122.445], ['water', 'ELLIOTT BAY', 47.600, -122.360], ['water', 'LAKE WASHINGTON', 47.630, -122.255],
+    ['water', 'LAKE UNION', 47.640, -122.337], ['water', 'LAKE SAMMAMISH', 47.585, -122.087], ['water', 'GREEN LK', 47.681, -122.330],
+    ['city', 'SEATTLE', 47.606, -122.332], ['city', 'BALLARD', 47.668, -122.384], ['city', 'BEACON HILL', 47.578, -122.311],
+    ['city', 'WEST SEATTLE', 47.576, -122.387], ['city', 'MERCER ISLAND', 47.570, -122.230], ['city', 'BELLEVUE', 47.610, -122.200],
+    ['city', 'KIRKLAND', 47.678, -122.207], ['city', 'REDMOND', 47.674, -122.122], ['city', 'RENTON', 47.482, -122.210],
+    ['city', 'KENT', 47.382, -122.234], ['city', 'TUKWILA', 47.465, -122.260], ['city', 'BOTHELL', 47.760, -122.205],
+    ['city', 'SHORELINE', 47.756, -122.341], ['city', 'SAMMAMISH', 47.616, -122.036], ['city', 'ISSAQUAH', 47.531, -122.033],
     ['hood', 'KENMORE', 47.757, -122.244], ['hood', 'WOODINVILLE', 47.754, -122.163], ['hood', 'BURIEN', 47.470, -122.347], ['hood', 'DES MOINES', 47.402, -122.324],
   ];
   function mk(html, cls) { var d = document.createElement('div'); d.className = cls; d.innerHTML = html; return d; }
