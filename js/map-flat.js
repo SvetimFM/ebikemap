@@ -276,7 +276,14 @@ window.ATLAS_READY.then(function (A) {
     }
   }
 
-  document.getElementById('sheetHandle').addEventListener('click', function () { document.getElementById('sidebar').classList.toggle('expanded'); });
+  document.getElementById('sheetHandle').addEventListener('click', function () {
+    var sb = document.getElementById('sidebar'); var willExpand = !sb.classList.contains('expanded');
+    sb.classList.toggle('expanded');
+    if (window.AtlasOverlay) { // mobile bottom sheet → back button collapses it
+      if (willExpand) AtlasOverlay.push('sidebar', function () { sb.classList.remove('expanded'); });
+      else AtlasOverlay.dismiss('sidebar');
+    }
+  });
 
   function fixSize() { map.resize(); }
   window.addEventListener('load', function () { setTimeout(fixSize, 150); }); setTimeout(fixSize, 400); setTimeout(fixSize, 1000);

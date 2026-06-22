@@ -471,7 +471,7 @@ class Component extends DCLogic {
     const p=new THREE.Mesh(g,m); p.position.y=this.llY(0)-0.15; this._reliefGroup.add(p);
   }
   _drapePts(path){
-    return path.map(p=>new window.THREE.Vector3(this.llX(p[1]), this.llY(this.heightMeters(p[1],p[0]))+0.9, this.llZ(p[0])));
+    return path.map(p=>new window.THREE.Vector3(this.llX(p[1]), this.llY(this.heightMeters(p[1],p[0]))+0.55, this.llZ(p[0])));
   }
   _buildTrails(){
     const THREE=window.THREE; this._trailMeshes={}; this._pickables=[];
@@ -479,12 +479,12 @@ class Component extends DCLogic {
       const pts=this._drapePts(t.path);
       const curve=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.5);
       const seg=Math.max(40,t.path.length*12);
-      const tube=new THREE.TubeGeometry(curve,seg,0.4,8,false);
+      const tube=new THREE.TubeGeometry(curve,seg,0.24,8,false);
       const tMesh=new THREE.Mesh(tube,new THREE.MeshBasicMaterial({color:'#f0b53f'}));
       tMesh.renderOrder=3;
       this._reliefGroup.add(tMesh);
       // soft glow shell
-      const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,seg,0.7,8,false),new THREE.MeshBasicMaterial({color:'#e9a93c',transparent:true,opacity:.16,depthWrite:false}));
+      const glow=new THREE.Mesh(new THREE.TubeGeometry(curve,seg,0.4,8,false),new THREE.MeshBasicMaterial({color:'#e9a93c',transparent:true,opacity:.18,depthWrite:false}));
       glow.renderOrder=2; this._reliefGroup.add(glow);
       // fat transparent tube = generous click/hover target (stays raycastable;
       // colorWrite:false draws nothing — Raycaster skips visible:false meshes)
@@ -495,16 +495,16 @@ class Component extends DCLogic {
   }
   _buildStations(){
     const THREE=window.THREE; this._stationMeshes=[];
-    const S=this._exag/this._exagBuild, OFF=0.7;
+    const S=this._exag/this._exagBuild, OFF=0.5;
     window.ATLAS.STATIONS.forEach(s=>{
       const baseY=this.llY(this.heightMeters(s[2],s[1]));     // terrain height at build exaggeration
       const x=this.llX(s[2]), z=this.llZ(s[1]);
       // stations live in world space (not the scaled group) so the spheres stay
       // ROUND; their height tracks the terrain via baseY*S on the exaggeration slider.
-      const m=new THREE.Mesh(new THREE.SphereGeometry(0.42,16,16),new THREE.MeshBasicMaterial({color:'#b58ce0'}));
+      const m=new THREE.Mesh(new THREE.SphereGeometry(0.3,16,16),new THREE.MeshBasicMaterial({color:'#b58ce0'}));
       m.position.set(x,baseY*S+OFF,z); this._scene.add(m);
       m.userData={kind:'station',name:s[0],note:s[3]}; if(this._pickables) this._pickables.push(m);
-      const halo=new THREE.Mesh(new THREE.SphereGeometry(0.72,16,16),new THREE.MeshBasicMaterial({color:'#b58ce0',transparent:true,opacity:.18}));
+      const halo=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshBasicMaterial({color:'#b58ce0',transparent:true,opacity:.2}));
       halo.position.copy(m.position); this._scene.add(halo);
       this._stationMeshes.push({m,halo,baseY,x,z,off:OFF});
     });
