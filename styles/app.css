@@ -15,6 +15,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .blaze{width:13px;height:24px;border-radius:3px;background:var(--accent);box-shadow:0 0 0 3px rgba(232,163,61,.16);flex:none;}
 .title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;letter-spacing:.3px;line-height:1.05;white-space:nowrap;}
 .subtitle{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);margin-top:3px;white-space:nowrap;}
+.subtitle .byline{color:var(--gold-2);}
 .header-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .ctl-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-right:2px;}
 .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden;}
@@ -37,7 +38,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 .about-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--cream);cursor:pointer;font-size:14px;}
 .about-close:hover{border-color:var(--accent);}
 .about-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);}
-.about-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:5px 0 12px;}
+.about-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:5px 0 6px;}
+.about-byline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin:0 0 14px;}
+.about-byline b{color:var(--gold-2);font-weight:700;}
 .about-p{font-size:13.5px;line-height:1.6;color:var(--cream-dim);margin:0 0 6px;}
 .about-sec{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;border-top:1px solid var(--line-soft);padding-top:14px;}
 .about-list{margin:0;padding-left:18px;font-size:12.5px;line-height:1.65;color:var(--cream-dim);}

@@ -19,12 +19,13 @@
     '<button class="about-close" data-close aria-label="Close">✕</button>' +
     '<div class="about-kicker">Seattle Metro Bike &amp; E-Bike Atlas</div>' +
     '<h2 class="about-title">About &amp; Sources</h2>' +
+    '<div class="about-byline">An open-data cartography project by <b>Svetim.FM</b></div>' +
     '<p class="about-p">A cartographic field instrument for cycling the Puget Sound region — built on open data, with real trail geometry, real elevation, and real terrain. Where a value is estimated rather than measured, it is labelled; trails without verified geometry keep an approximate path and no elevation.</p>' +
     '<div class="about-sec">Open data</div><ul class="about-list">' +
     '<li><b>Trail &amp; transit geometry</b> — © OpenStreetMap contributors, <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">ODbL</a> (via Overpass).</li>' +
     '<li><b>Elevation &amp; 3D terrain</b> — USGS 3DEP / Mapzen &amp; AWS Open Terrain Tiles (Terrarium), public domain. Profiles via OpenTopoData (NED 10 m).</li>' +
     '<li><b>Transit</b> — Sound Transit Link 1 / 2 Line, from OpenStreetMap.</li>' +
-    '<li><b>Basemap</b> — Natural Earth (public domain) + OpenStreetMap derived.</li>' +
+    '<li><b>Basemap</b> — coastline derived from USGS/Terrarium DEM (sea level); lakes, parks &amp; roads from OpenStreetMap (ODbL). Aerial imagery: USGS The National Map (public domain).</li>' +
     '</ul>' +
     '<div class="about-sec">Software &amp; type</div><ul class="about-list">' +
     '<li>Leaflet (BSD-2) · three.js (MIT) · Fonts: Fraunces, Archivo, JetBrains Mono (OFL).</li>' +

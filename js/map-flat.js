@@ -27,6 +27,7 @@ window.ATLAS_READY.then(function (A) {
     version: 8,
     sources: {
       dem: { type: 'raster-dem', tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 13, attribution: 'Elevation: Mapzen/Terrarium (public domain)' },
+      'usgs-sat': { type: 'raster', tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 16, attribution: 'Imagery: USGS The National Map (public domain)' },
       ocean: { type: 'geojson', data: A.BASEMAP.ocean }, lakes: { type: 'geojson', data: A.BASEMAP.lakes },
       parksrc: { type: 'geojson', data: A.BASEMAP.parks }, roads: { type: 'geojson', data: A.BASEMAP.roads },
       trails: { type: 'geojson', data: trailsGeo, promoteId: 'id' }, transit: { type: 'geojson', data: transitGeo },
@@ -37,6 +38,7 @@ window.ATLAS_READY.then(function (A) {
       { id: 'ocean', type: 'fill', source: 'ocean', paint: { 'fill-color': '#11313a', 'fill-opacity': 0.9 } },
       { id: 'lakes', type: 'fill', source: 'lakes', paint: { 'fill-color': '#11313a', 'fill-opacity': 0.9 } },
       { id: 'parks', type: 'fill', source: 'parksrc', paint: { 'fill-color': '#21402c', 'fill-opacity': 0.5 } },
+      { id: 'satellite', type: 'raster', source: 'usgs-sat', layout: { visibility: 'none' }, paint: { 'raster-opacity': 1, 'raster-fade-duration': 250 } }, // USGS aerial overlay (toggle), above the vector basemap + below contours/roads/trails
       { id: 'roads', type: 'line', source: 'roads', paint: { 'line-color': '#3c4d41', 'line-opacity': 0.45, 'line-width': 1 } },
       { id: 'transit-casing', type: 'line', source: 'transit', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#0b150f', 'line-width': 5, 'line-opacity': 0.5 } },
       { id: 'transit', type: 'line', source: 'transit', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#b58ce0', 'line-width': 2.2, 'line-opacity': 0.9, 'line-dasharray': [1, 2.4] } },
@@ -277,6 +279,9 @@ window.ATLAS_READY.then(function (A) {
   document.getElementById('railBtn').addEventListener('click', function () { railOn = !railOn; this.classList.toggle('on', railOn); ['transit', 'transit-casing'].forEach(function (lyr) { if (map.getLayer(lyr)) map.setLayoutProperty(lyr, 'visibility', railOn ? 'visible' : 'none'); }); });
   var hillOn = true;
   document.getElementById('hillBtn').addEventListener('click', function () { hillOn = !hillOn; this.classList.toggle('on', hillOn); if (map.getLayer('hillshade')) map.setLayoutProperty('hillshade', 'visibility', hillOn ? 'visible' : 'none'); });
+  var satOn = false;
+  var satBtn = document.getElementById('satBtn');
+  if (satBtn) satBtn.addEventListener('click', function () { satOn = !satOn; this.classList.toggle('on', satOn); if (map.getLayer('satellite')) map.setLayoutProperty('satellite', 'visibility', satOn ? 'visible' : 'none'); });
   var contourBtn = document.getElementById('contourBtn');
   if (contourBtn) {
     if (!A.BASEMAP.contours) { contourBtn.style.display = 'none'; }

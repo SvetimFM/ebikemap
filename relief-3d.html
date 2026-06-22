@@ -465,20 +465,53 @@ class Component extends DCLogic {
   _rescaleStations(S){ (this._stationMeshes||[]).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); Object.values(this._pointMeshes||{}).forEach(o=>{ o.g.position.y=o.baseY*S; }); }
   vScale(){ return this._exag/this._exagBuild; }
   /* ---------- visible sun (NW cartographic light) ---------- */
+  // Real sun + moon azimuth/altitude for a date at lat/lng (SunCalc algorithm,
+   // Vladimir Agafonkin; low-precision moon). Azimuth measured from SOUTH, clockwise.
+  _celestial(date,lat,lng){
+    const rad=Math.PI/180, dayMs=86400000, J1970=2440588, J2000=2451545, e=rad*23.4397;
+    const toDays=d=>d.valueOf()/dayMs - 0.5 + J1970 - J2000;
+    const ra=(l,b)=>Math.atan2(Math.sin(l)*Math.cos(e)-Math.tan(b)*Math.sin(e),Math.cos(l));
+    const dec=(l,b)=>Math.asin(Math.sin(b)*Math.cos(e)+Math.cos(b)*Math.sin(e)*Math.sin(l));
+    const sid=(d,lw)=>rad*(280.16+360.9856235*d)-lw;
+    const azf=(H,phi,d)=>Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(phi)-Math.tan(d)*Math.cos(phi));
+    const altf=(H,phi,d)=>Math.asin(Math.sin(phi)*Math.sin(d)+Math.cos(phi)*Math.cos(d)*Math.cos(H));
+    const d=toDays(date), lw=rad*-lng, phi=rad*lat;
+    const M=rad*(357.5291+0.98560028*d);
+    const L=M+rad*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M))+rad*102.9372+Math.PI;
+    const sdec=dec(L,0), sH=sid(d,lw)-ra(L,0);
+    const sun={az:azf(sH,phi,sdec),alt:altf(sH,phi,sdec)};
+    const mL=rad*(218.316+13.176396*d), mM=rad*(134.963+13.064993*d), mF=rad*(93.272+13.229350*d);
+    const ml=mL+rad*6.289*Math.sin(mM), mb=rad*5.128*Math.sin(mF);
+    const mdec=dec(ml,mb), mH=sid(d,lw)-ra(ml,mb);
+    const moon={az:azf(mH,phi,mdec),alt:altf(mH,phi,mdec)};
+    return {sun,moon};
+  }
+  // Place the sun (day) or moon (night) at its real current sky position + aim the key light there.
   _buildSun(){
     const THREE=window.THREE;
-    // low over the NW/north horizon so it sits in the default view's sky band;
-    // key light kept high-NW for classic cartographic relief shading.
-    const pos=new THREE.Vector3(-this.worldW*0.45, this.worldH*0.2, -this.worldH*0.98);
-    const R=Math.max(8,this.worldW*0.058);
-    const disc=new THREE.Mesh(new THREE.SphereGeometry(R,24,24),new THREE.MeshBasicMaterial({color:'#fff4d6',fog:false}));
-    disc.position.copy(pos); this._scene.add(disc);
+    const now=new Date();
+    const cel=this._celestial(now, this.cLat, this.cLng);
+    const isMoon=cel.sun.alt<=0; const body=isMoon?cel.moon:cel.sun;
+    const A=body.az, alt=Math.max(body.alt, 0.03); // keep just above the horizon if it's setting
+    // scene axes: +x east, +y up, +z south; SunCalc az is from south, clockwise toward west
+    const dir=new THREE.Vector3(-Math.cos(alt)*Math.sin(A), Math.sin(alt), Math.cos(alt)*Math.cos(A)).normalize();
+    const dist=Math.max(this.worldW,this.worldH)*1.25;
+    const pos=dir.clone().multiplyScalar(dist);
+    const R=Math.max(7,this.worldW*0.05);
+    const disc=new THREE.Mesh(new THREE.SphereGeometry(R,24,24),new THREE.MeshBasicMaterial({color:isMoon?'#e7ecf5':'#fff4d6',fog:false}));
+    disc.position.copy(pos); this._scene.add(disc); this._sky=disc;
     const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
     const grd=g.createRadialGradient(64,64,0,64,64,64);
-    grd.addColorStop(0,'rgba(255,245,215,0.95)'); grd.addColorStop(0.2,'rgba(255,226,165,0.6)'); grd.addColorStop(0.5,'rgba(255,212,140,0.22)'); grd.addColorStop(1,'rgba(255,212,140,0)');
+    if(isMoon){ grd.addColorStop(0,'rgba(226,233,246,0.85)'); grd.addColorStop(0.25,'rgba(178,198,230,0.38)'); grd.addColorStop(0.55,'rgba(150,175,215,0.15)'); grd.addColorStop(1,'rgba(150,175,215,0)'); }
+    else { grd.addColorStop(0,'rgba(255,245,215,0.95)'); grd.addColorStop(0.2,'rgba(255,226,165,0.6)'); grd.addColorStop(0.5,'rgba(255,212,140,0.22)'); grd.addColorStop(1,'rgba(255,212,140,0)'); }
     g.fillStyle=grd; g.beginPath(); g.arc(64,64,64,0,7); g.fill();
     const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,fog:false}));
-    spr.position.copy(pos); spr.scale.set(R*9,R*9,1); this._scene.add(spr);
+    spr.position.copy(pos); spr.scale.set(R*(isMoon?6:9),R*(isMoon?6:9),1); this._scene.add(spr);
+    // aim the key light from the body
+    if(this._sunLight){ this._sunLight.position.copy(dir.clone().multiplyScalar(200));
+      if(isMoon){ this._sunLight.color.set('#9fb4d8'); this._sunLight.intensity=0.5; }
+      else { this._sunLight.color.set('#fff2da'); this._sunLight.intensity=0.95+0.5*Math.min(1,Math.sin(body.alt)); } }
+    try{ this._skyLabel=(isMoon?'☾ ':'☀ ')+now.toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles',hour:'numeric',minute:'2-digit'})+' PT'; }catch(e){ this._skyLabel=isMoon?'☾ night':'☀ day'; }
   }
   _buildWaterPlane(){
     const THREE=window.THREE;
@@ -619,6 +652,8 @@ class Component extends DCLogic {
     Object.values(this._trailMeshes).forEach(o=>{o.tube.material.color.set('#f0b53f');o.glow.material.opacity=.16;});
     this.setState({selectedId:id, selected:meta, flying:false, flyT:0});
     this.setState(s=>({trails:this._decorate(s.trails)}));
+    // open the rich detail card in the parent document (slides in over the 3D view)
+    try{ if(window.parent && window.parent!==window && window.parent.__atlasSelect) window.parent.__atlasSelect(id); }catch(e){}
     if(meta.isPoint){
       const pm=this._pointMeshes[id]; if(pm){ const v=new window.THREE.Vector3(); this._scene.updateMatrixWorld(true); pm.head.getWorldPosition(v); this._framePoint(v); } // park/spot: fly to locate it
     } else {
@@ -729,7 +764,7 @@ class Component extends DCLogic {
       setExag:this.setExag, exagVal:s.exag, exagLabel:s.exag+'×',
       satLabel:this._satOn?'◉ Satellite':'◎ Relief',
       satColor:this._satOn?'#e9a93c':'#bcc5b6',
-      terrainNote:this._hf?(this._satOn?'Imagery: USGS aerial · terrain: USGS 3DEP/Mapzen (public domain)':'Terrain: real DEM · USGS 3DEP / Mapzen (public domain)'):'Terrain synthesized · trail profiles from real DEM',
+      terrainNote:(this._hf?(this._satOn?'Imagery: USGS aerial · terrain: USGS 3DEP/Mapzen (public domain)':'Terrain: real DEM · USGS 3DEP / Mapzen (public domain)'):'Terrain synthesized · trail profiles from real DEM')+(this._skyLabel?' · '+this._skyLabel:''),
       mount:this._setMount
     };
   }
