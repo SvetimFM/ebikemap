@@ -47,10 +47,12 @@
       '</div></div>' +
       '<div class="fc-foot">Geometry © OpenStreetMap (ODbL) · elevation USGS 3DEP / OpenTopoData · ' + (t.geomSource && t.geomSource.indexOf('OpenStreetMap') === 0 ? 'OSM centerline' : 'approximate route') + ' · printed from the Atlas, works offline.</div>' +
       '</div>';
+    function hideCard() { card.classList.remove('on'); document.removeEventListener('keydown', esc); }
+    function esc(e) { if (e.key === 'Escape') { hideCard(); if (window.AtlasOverlay) AtlasOverlay.dismiss('fieldcard'); } }
     card.classList.add('on');
-    document.getElementById('fcClose').addEventListener('click', function () { card.classList.remove('on'); });
+    if (window.AtlasOverlay) AtlasOverlay.push('fieldcard', hideCard); // back button closes the card (over the detail panel)
+    document.getElementById('fcClose').addEventListener('click', function () { hideCard(); if (window.AtlasOverlay) AtlasOverlay.dismiss('fieldcard'); });
     document.getElementById('fcPrint').addEventListener('click', function () { window.print(); });
-    function esc(e) { if (e.key === 'Escape') { card.classList.remove('on'); document.removeEventListener('keydown', esc); } }
     document.addEventListener('keydown', esc);
   }
   window.__atlasFieldCard = render;

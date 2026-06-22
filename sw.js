@@ -2,11 +2,11 @@
    Precaches the app shell + data + heightfield so the core experience opens with
    no network after first load. Photos and CDN assets are cached-first at runtime.
    The map's vector basemap needs no tile server, so the flat map is fully offline. */
-var VERSION = 'atlas-v7-2026-06-21';
+var VERSION = 'atlas-v8-2026-06-21';
 var CORE = [
   './', 'index.html', 'styles/tokens.css', 'styles/app.css',
   'js/data.js', 'js/map-flat.js', 'js/view-switch.js', 'js/view-network.js',
-  'js/elevation.js', 'js/about.js', 'js/field-card.js', 'sw-register.js',
+  'js/elevation.js', 'js/about.js', 'js/field-card.js', 'js/overlay-nav.js', 'sw-register.js',
   'atlas-data.js', 'relief-3d.html', 'support.js', 'vendor/three.min.js', 'vendor/OrbitControls.js',
   'data/relief/satellite.jpg',
   'data/trails.json', 'data/stations.json', 'data/connections.json', 'data/transit.json',

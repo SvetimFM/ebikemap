@@ -170,12 +170,14 @@ window.ATLAS_READY.then(function (A) {
       h += '</div>';
     }
     D.body.innerHTML = h; D.body.scrollTop = 0; D.panel.classList.add('open');
+    if (window.AtlasOverlay) AtlasOverlay.push('detail', closeDetail); // back button closes the panel
     if (tr.elevation && window.AtlasElevation) window.AtlasElevation.attachScrubber(D.body, tr.elevation);
     D.body.querySelectorAll('a[data-goto]').forEach(function (a) { a.addEventListener('click', function (ev) { ev.preventDefault(); select(a.dataset.goto); }); });
     var fc = D.body.querySelector('[data-fieldcard]'); if (fc) fc.addEventListener('click', function () { if (window.__atlasFieldCard) window.__atlasFieldCard(fc.dataset.fieldcard); });
     var fl = D.body.querySelector('[data-fly]'); if (fl) fl.addEventListener('click', function () { if (window.__atlasView) window.__atlasView('3d'); });
   }
-  document.getElementById('dClose').addEventListener('click', function () { D.panel.classList.remove('open'); clearHighlight(); activeId = null; document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('active'); }); });
+  function closeDetail() { D.panel.classList.remove('open'); clearHighlight(); activeId = null; document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('active'); }); }
+  document.getElementById('dClose').addEventListener('click', function () { closeDetail(); if (window.AtlasOverlay) AtlasOverlay.dismiss('detail'); });
 
   /* ---------- list (DOM) ---------- */
   var fType = 'all', fEb = 'all';

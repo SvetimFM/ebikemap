@@ -256,6 +256,18 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
   .fc-page{box-shadow:none;max-width:100%;border-radius:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 }
 
+/* Field card on phones: single column, safe-area, sticky 44px toolbar so Print/Close
+   stay reachable while scrolling a long card. */
+@media (max-width:640px){
+  #fieldcard{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));}
+  .fc-toolbar{position:sticky;top:0;z-index:2;margin:-4px 0 12px;padding:8px 0;background:linear-gradient(180deg,rgba(5,10,7,.96),rgba(5,10,7,.7));backdrop-filter:blur(3px);}
+  .fc-btn{min-height:44px;padding:12px 16px;}
+  .fc-page{padding:18px 16px;max-width:100%;}
+  .fc-grid{grid-template-columns:1fr;gap:14px;}
+  .fc-name{font-size:24px;}
+  .fc-loc{max-width:300px;margin:0 auto;}
+}
+
 /* elevation profile — shared component (§8.1), real DEM data */
 .elev{margin-top:2px;}
 .elev-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
