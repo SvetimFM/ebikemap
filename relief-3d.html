@@ -437,7 +437,19 @@ class Component extends DCLogic {
       tube.geometry.computeBoundingSphere(); const c=tube.geometry.boundingSphere.center.clone(); tube.localToWorld(c); c.project(this._cam);
       this._ray.setFromCamera(new THREE.Vector2(c.x,c.y), this._cam);
       const hits=this._ray.intersectObjects(ps,false);
-      return {pickables:ps.length, hit:hits.length>0, kind:hits[0]&&hits[0].object.userData.kind, name:hits[0]&&hits[0].object.userData.name};
+      // point markers (parks/spots): how many are on-screen and un-occluded by terrain
+      this._scene.updateMatrixWorld(true);
+      const heads=ps.filter(o=>o.userData&&o.userData.kind==='point');
+      let pointsOnscreen=0, pointsVisible=0;
+      for(const h of heads){
+        const pc=new THREE.Vector3(); h.getWorldPosition(pc); pc.project(this._cam);
+        if(Math.abs(pc.x)<=1&&Math.abs(pc.y)<=1&&pc.z<1){ pointsOnscreen++;
+          this._ray.setFromCamera(new THREE.Vector2(pc.x,pc.y), this._cam);
+          const ph=this._ray.intersectObjects(ps,false);
+          if(ph.length&&ph[0].object.userData.kind==='point') pointsVisible++;
+        }
+      }
+      return {pickables:ps.length, hit:hits.length>0, kind:hits[0]&&hits[0].object.userData.kind, name:hits[0]&&hits[0].object.userData.name, points:heads.length, pointsOnscreen, pointsVisible};
     };
   }
   _showTip(x,y,txt){ let el=this._tipEl; if(!el){ el=document.createElement('div'); el.style.cssText='position:fixed;z-index:9999;pointer-events:none;font-family:JetBrains Mono,monospace;font-size:11px;color:#ece4d4;background:rgba(9,16,11,.92);border:1px solid rgba(236,228,212,.18);border-radius:7px;padding:5px 9px;white-space:nowrap;transform:translate(-50%,-170%);box-shadow:0 4px 14px rgba(0,0,0,.55);'; document.body.appendChild(el); this._tipEl=el; } el.textContent=txt; el.style.left=x+'px'; el.style.top=y+'px'; el.style.display='block'; }
@@ -450,7 +462,7 @@ class Component extends DCLogic {
     this._rescaleStations(S);
     this.setState({exag:v});
   };
-  _rescaleStations(S){ (this._stationMeshes||[]).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); Object.values(this._pointMeshes||{}).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); }
+  _rescaleStations(S){ (this._stationMeshes||[]).forEach(o=>{ const y=o.baseY*S+o.off; o.m.position.y=y; o.halo.position.y=y; }); Object.values(this._pointMeshes||{}).forEach(o=>{ o.g.position.y=o.baseY*S; }); }
   vScale(){ return this._exag/this._exagBuild; }
   /* ---------- visible sun (NW cartographic light) ---------- */
   _buildSun(){
@@ -524,18 +536,24 @@ class Component extends DCLogic {
   // in world space (stay round under exaggeration), pickable + selectable like stations.
   _buildPoints(){
     const THREE=window.THREE; this._pointMeshes={};
-    const S=this._exag/this._exagBuild, OFF=0.6;
+    const S=this._exag/this._exagBuild;
     window.ATLAS.TRAILS.filter(t=>t.geom!=='line'&&t.pt).forEach(t=>{
       const lng=t.pt[1], lat=t.pt[0];
       const baseY=this.llY(this.heightMeters(lng,lat));
       const x=this.llX(lng), z=this.llZ(lat);
-      const col=t.type==='park'?'#4fae6a':(this.EBC[t.eb]||'#6cc06f');
-      const m=new THREE.Mesh(new THREE.OctahedronGeometry(0.52,0),new THREE.MeshBasicMaterial({color:col}));
-      m.position.set(x,baseY*S+OFF,z); m.userData={kind:'point',id:t.id,name:t.name};
-      this._scene.add(m); if(this._pickables) this._pickables.push(m);
-      const halo=new THREE.Mesh(new THREE.OctahedronGeometry(0.82,0),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.2}));
-      halo.position.copy(m.position); this._scene.add(halo);
-      this._pointMeshes[t.id]={m,halo,baseY,off:OFF};
+      const col=t.type==='park'?'#5fd07f':(this.EBC[t.eb]||'#6cc06f');
+      // an upright pin (stem + diamond head + glow) reads as a planted POI and stays
+      // visible even at the metro-overview zoom. Group base tracks terrain height.
+      const g=new THREE.Group(); g.position.set(x, baseY*S, z);
+      const stem=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,1.6,6),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.6,depthWrite:false}));
+      stem.position.y=0.8; stem.renderOrder=2; g.add(stem);
+      const head=new THREE.Mesh(new THREE.OctahedronGeometry(0.62,0),new THREE.MeshBasicMaterial({color:col}));
+      head.position.y=1.9; head.renderOrder=3; head.userData={kind:'point',id:t.id,name:t.name}; g.add(head);
+      if(this._pickables) this._pickables.push(head);
+      const glow=new THREE.Mesh(new THREE.SphereGeometry(1.05,12,12),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.16,depthWrite:false}));
+      glow.position.y=1.9; g.add(glow);
+      this._scene.add(g);
+      this._pointMeshes[t.id]={g,head,baseY};
     });
   }
 
@@ -602,7 +620,7 @@ class Component extends DCLogic {
     this.setState({selectedId:id, selected:meta, flying:false, flyT:0});
     this.setState(s=>({trails:this._decorate(s.trails)}));
     if(meta.isPoint){
-      const pm=this._pointMeshes[id]; if(pm) this._framePoint(pm.m.position); // park/spot: fly to locate it
+      const pm=this._pointMeshes[id]; if(pm){ const v=new window.THREE.Vector3(); this._scene.updateMatrixWorld(true); pm.head.getWorldPosition(v); this._framePoint(v); } // park/spot: fly to locate it
     } else {
       const m=this._trailMeshes[id]; if(!m) return;
       m.tube.material.color.set('#fff3d6'); m.glow.material.opacity=.4;
