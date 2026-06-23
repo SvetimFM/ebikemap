@@ -2,7 +2,7 @@
    Precaches the app shell + data + heightfield so the core experience opens with
    no network after first load. Photos and CDN assets are cached-first at runtime.
    The map's vector basemap needs no tile server, so the flat map is fully offline. */
-var VERSION = 'atlas-v19-2026-06-23';
+var VERSION = 'atlas-v20-2026-06-23';
 var CORE = [
   './', 'index.html', 'styles/tokens.css', 'styles/app.css',
   'js/data.js', 'js/map-flat.js', 'js/view-switch.js', 'js/view-network.js',
@@ -12,7 +12,7 @@ var CORE = [
   'data/trails.json', 'data/stations.json', 'data/connections.json', 'data/transit.json',
   'data/basemap/ocean.geojson', 'data/basemap/lakes.geojson', 'data/basemap/parks.geojson', 'data/basemap/roads.geojson', 'data/basemap/contours.geojson',
   'data/relief/heightfield.json', 'data/relief/heightfield.png',
-  'favicon.ico', 'favicon-32.png', 'icon-512.png', 'apple-touch-icon.png', 'og.png',
+  'favicon.svg', 'favicon.ico', 'favicon-16.png', 'favicon-32.png', 'icon-512.png', 'apple-touch-icon.png', 'og.png',
 ];
 
 self.addEventListener('install', function (e) {
